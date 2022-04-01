@@ -1,0 +1,15 @@
+C:\Users\ltcha\revature\StoreApp\UI\bin\Debug\net6.0-windows\UI.exe
+C:\Users\ltcha\revature\StoreApp\UI\bin\Debug\net6.0-windows\UI.deps.json
+C:\Users\ltcha\revature\StoreApp\UI\bin\Debug\net6.0-windows\UI.runtimeconfig.json
+C:\Users\ltcha\revature\StoreApp\UI\bin\Debug\net6.0-windows\UI.dll
+C:\Users\ltcha\revature\StoreApp\UI\bin\Debug\net6.0-windows\UI.pdb
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.csproj.AssemblyReference.cache
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.AssemblyInfoInputs.cache
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.AssemblyInfo.cs
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.csproj.CoreCompileInputs.cache
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.dll
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\refint\UI.dll
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.pdb
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\UI.genruntimeconfig.cache
+C:\Users\ltcha\revature\StoreApp\UI\obj\Debug\net6.0-windows\ref\UI.dll
