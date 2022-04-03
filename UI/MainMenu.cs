@@ -6,13 +6,13 @@ namespace UI;
 
 public class MainMenu
 {
-   // private readonly IStoreBL _bl;
+   private readonly IStoreBL _bl;
 
-    // //Dependency injection
-    // public MainMenu(IStoreBL bl)
-    // {
-    //     _bl = bl;
-    // }
+    //Dependency injection
+    public MainMenu(IStoreBL bl)
+    {
+        _bl = bl;
+    }
 
     public void Start()
     {
@@ -32,7 +32,7 @@ public class MainMenu
                 case "1":
                     //customer portal
                     Console.WriteLine("Customer!!!");
-                    new CustomerMenu().Start();
+                    new CustomerMenu(_bl).Start();
                     break;
 
                 case "2":

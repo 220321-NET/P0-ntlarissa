@@ -1,14 +1,14 @@
 ﻿using UI;
+using DL;
 using BL;
-using DB;
 
 
 string connectionString = File.ReadAllText("./connectionString.txt");
 
-// //Dependency Injection
-// IStoreDB repo = new StoreDB(connectionString);
-// IStoreBL bl = new StoreBL(repo);
-// new MainMenu(bl).Start();
+//Dependency Injection
+IStoreDL repo = new StoreDL(connectionString);
+IStoreBL bl = new StoreBL(repo);
+new MainMenu(bl).Start();
 
 
-new MainMenu().Start();
+//new MainMenu().Start();

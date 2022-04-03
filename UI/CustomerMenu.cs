@@ -1,10 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using Models;
+using BL;
 
 namespace UI;
 
 public class CustomerMenu
 {
+private readonly IStoreBL _bl;
+
+    //Dependency injection
+    public CustomerMenu(IStoreBL bl)
+    {
+        _bl = bl;
+    }
+
     public void Start()
     {
         Console.WriteLine("Welcome to Store App");
@@ -58,24 +67,29 @@ public class CustomerMenu
         string? password = Console.ReadLine();
 
         //connect to the database if the user exit return all the information to build user objet
-        if (username == "l.tchani37@gmail" && password == "Admin1234")
+
+        User userToCreate = new User();
+        try
         {
-            User userToCreate = new User();
-            try
-            {
-                userToCreate.FirstName = "Lara"!;
-                userToCreate.LastName = "Tchani"!;
-                userToCreate.UserName = "l.tchani37@gmail.com"!;
-            }
-            catch (ValidationException ex)
-            {
-                Console.WriteLine(ex.Message);
-                goto EnterUserData;
-            }
-            finally
-            {
-                //do stuff here, such as cleaning up the outside resources
-            }
+            userToCreate.UserName = username;
+            userToCreate.Password = password;
+            userToCreate.IsAdmin = 0;
+            userToCreate.Status = 0;
+        }
+        catch (ValidationException ex)
+        {
+            Console.WriteLine(ex.Message);
+            goto EnterUserData;
+        }
+        finally
+        {
+            //do stuff here, such as cleaning up the outside resources
+        }
+
+         User createdUser = _bl.createNewCustomer(userToCreate);
+        if (createdUser.Status == 1)
+        {
+            Console.WriteLine("Customer connected successfully!");
         }
     }
 
