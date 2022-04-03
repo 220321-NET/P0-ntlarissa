@@ -1,10 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using Models;
+using BL;
 
 namespace UI;
 
 public class MainMenu
 {
+   // private readonly IStoreBL _bl;
+
+    // //Dependency injection
+    // public MainMenu(IStoreBL bl)
+    // {
+    //     _bl = bl;
+    // }
+
     public void Start()
     {
         Console.WriteLine("Welcome to Store App");
