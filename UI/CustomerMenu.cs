@@ -62,19 +62,19 @@ private readonly IStoreBL _bl;
         Console.WriteLine("Logging  User");
 
         Console.WriteLine("Enter Your UserName: ");
-        string? username = Console.ReadLine();
+        string username = InputValidation.validString();
         Console.WriteLine("Enter Your Password: ");
-        string? password = Console.ReadLine();
+        string? password = InputValidation.validString();
 
         //connect to the database if the user exit return all the information to build user objet
 
-        User userToCreate = new User();
+        User userToGet = new User();
         try
         {
-            userToCreate.UserName = username;
-            userToCreate.Password = password;
-            userToCreate.IsAdmin = 0;
-            userToCreate.Status = 0;
+            userToGet.UserName = username;
+            userToGet.Password = password;
+            userToGet.IsAdmin = false;
+            userToGet.Status = 0;
         }
         catch (ValidationException ex)
         {
@@ -86,10 +86,12 @@ private readonly IStoreBL _bl;
             //do stuff here, such as cleaning up the outside resources
         }
 
-         User createdUser = _bl.createNewCustomer(userToCreate);
-        if (createdUser.Status == 1)
+         User? gotUser = _bl.getUser(userToGet);
+        if (gotUser != null)
         {
-            Console.WriteLine("Customer connected successfully!");
+            outputMessage.sucessConnexion(gotUser.FirstName);
+        }else{
+            outputMessage.errorConnexion();
         }
     }
 

@@ -25,9 +25,9 @@ public class MainMenu
             Console.WriteLine("[1] Customer");
             Console.WriteLine("[2] Manager");
             Console.WriteLine("[x] Exit");
-            string? input = Console.ReadLine();
+            string input  = InputValidation.validString();
 
-            switch (input)
+            switch (input.ToLower())
             {
                 case "1":
                     //customer portal
