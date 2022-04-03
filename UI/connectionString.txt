@@ -1,0 +1,1 @@
+Server=tcp:revaturesql.database.windows.net,1433;Initial Catalog=storeApp;Persist Security Info=False;User ID=larissadb;Password=Tchani2022;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;

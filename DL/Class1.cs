@@ -1,8 +1,8 @@
-﻿//using Microsoft.Data.SqlClient;
+﻿﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace DB;
-public class StoreDB : IStoreDB
+namespace DL;
+public class StoreDL : IStoreDL
 {
 
     private readonly string _connectionString;
@@ -11,7 +11,7 @@ public class StoreDB : IStoreDB
     /// <summary>
     /// define or initialise a connexion information
     /// </summary>
-    public StoreDB(string connectionString)
+    public StoreDL(string connectionString)
     {
         _connectionString = connectionString;
     }

@@ -1,11 +1,11 @@
 
 
-namespace DB;
+namespace DL;
 
 /// <summary>
 /// Interface for accessing data
 /// </summary>
-public interface IStoreDB
+public interface IStoreDL
 {
 
     // /// <summary>
