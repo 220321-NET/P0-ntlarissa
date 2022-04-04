@@ -124,6 +124,7 @@ public class ManagerMenu
                     break;
                 case "6":
                     //Replenish inventory!
+                    ReplenishInventory(manager);
                     break;
                 case "7":
                     //Add storeFront!
@@ -243,7 +244,7 @@ public class ManagerMenu
         }
         else
         {
-            OutputMessage.ErrorCreationStore();
+            OutputMessage.ErrorOperation();
         }
 
     }
@@ -285,7 +286,7 @@ public class ManagerMenu
         }
         else
         {
-            OutputMessage.ErrorCreationStore();
+            OutputMessage.ErrorOperation();
         }
 
     }
@@ -307,7 +308,69 @@ public class ManagerMenu
         }
         else
         {
-            OutputMessage.ErrorCreationStore();
+            OutputMessage.ErrorOperation();
+        }
+
+    }
+
+    private void ReplenishInventory(User manager)
+    {
+
+        // get all product by store and update
+
+        List<Product>? allProducts = _bl.GetAllProductByStore(manager.IDStore);
+        if (allProducts != null)
+        {
+            Console.WriteLine("Here are all the products in the store");
+            foreach (Product productToDisplay in allProducts)
+            {
+                Console.WriteLine(productToDisplay);
+                System.Console.WriteLine("==============================================================================");
+            }
+            System.Console.WriteLine("Enter the  Product ID");
+        EnterID:
+            int id = InputValidation.validIntPositif();
+            if (allProducts.Exists(x => x.IDProduct == id))
+            {
+                Product? productToUpdate = allProducts.Find(x => x.IDProduct == id);
+                if (productToUpdate != null)
+                {
+                    //System.Console.WriteLine(productToUpdate);
+                    Console.WriteLine($"Enter the new quantity or {productToUpdate.ProductQuantity} for the old value: ");
+                    float quantity = InputValidation.validFloatPositif();
+
+                    Console.WriteLine($"Enter the new price or {productToUpdate.ProductPrice} for the old value: ");
+                    float price = InputValidation.validFloatPositif();
+                    productToUpdate.ProductPrice = price;
+                    productToUpdate.ProductQuantity = quantity;
+                    //System.Console.WriteLine(productToUpdate);
+                    Product? updatedProduct = _bl.updateProduct(productToUpdate);
+                    if (updatedProduct != null)
+                    {
+                        OutputMessage.SucessUpdate("Inventory ");
+                        PortalManager(manager);
+                    }
+                    else
+                    {
+                        OutputMessage.ErrorOperation();
+                    }
+                }
+                else
+                {
+                    OutputMessage.ErrorOperation();
+                }
+
+            }
+            else
+            {
+                Console.WriteLine($"This ID Product {id} does not exist, please enter the correct ID");
+                goto EnterID;
+            }
+
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
         }
 
     }

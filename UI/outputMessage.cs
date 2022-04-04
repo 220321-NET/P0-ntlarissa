@@ -19,6 +19,11 @@ public static class OutputMessage
         System.Console.WriteLine($"{firstname} created successfully!");
     }
 
+    public static void SucessUpdate(string firstname)
+    {
+        System.Console.WriteLine($"{firstname} updated successfully!");
+    }
+
     public static void SucessCreationStore()
     {
         System.Console.WriteLine("New store created successfully!");
@@ -28,7 +33,7 @@ public static class OutputMessage
     {
         System.Console.WriteLine("Something wrong, please change your username and try again!");
     }
-    public static void ErrorCreationStore()
+    public static void ErrorOperation()
     {
         System.Console.WriteLine("Something wrong, please check and try again!");
     }
