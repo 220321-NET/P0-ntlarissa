@@ -16,7 +16,15 @@ public class CustomerMenu
 
     public void Start()
     {
-        Console.WriteLine("Welcome to Store App");
+        HomePageCustomer();
+
+
+    }
+
+
+    //home page customer
+    private void HomePageCustomer()
+    {
         bool exit = false;
         do
         {
@@ -25,19 +33,17 @@ public class CustomerMenu
             Console.WriteLine("[1] Log IN");
             Console.WriteLine("[2] Sign UP");
             Console.WriteLine("[x] Exit");
-            string? input = Console.ReadLine();
+            string input = InputValidation.validString();
 
-            switch (input)
+            switch (input.ToLower())
             {
                 case "1":
                     //Login to an app
-                    Console.WriteLine("Login!!!");
                     LogToUser();
                     break;
 
                 case "2":
                     //create a new customer
-                    Console.WriteLine("Registration!!!");
                     CreateNewUser();
                     break;
                 case "x":
@@ -50,14 +56,13 @@ public class CustomerMenu
             }
 
         } while (!exit);
-
     }
 
     // log to an account user or customer
     private void LogToUser()
     {
 
-        Console.WriteLine("Logging  User");
+        Console.WriteLine("Logging  Customer");
 
         Console.WriteLine("Enter Your UserName: ");
         string username = InputValidation.validString();
@@ -74,6 +79,8 @@ public class CustomerMenu
         if (gotUser != null)
         {
             outputMessage.sucessConnexion(gotUser.FirstName);
+            PortalCustomer(gotUser);
+
         }
         else
         {
@@ -81,13 +88,58 @@ public class CustomerMenu
         }
     }
 
+    private void PortalCustomer(User customer)
+    {
+        bool exit = false;
+        do
+        {
 
+            Console.WriteLine("What would you like to do today?");
+            Console.WriteLine("[1] Make an order!");
+            Console.WriteLine("[2] Add products to an order!");
+            Console.WriteLine("[3] View details of an order!");
+            Console.WriteLine("[4] place an order!");
+            Console.WriteLine("[5] View order history!");
+            Console.WriteLine("[x] Exit");
+            string input = InputValidation.validString();
+
+            switch (input.ToLower())
+            {
+                case "1":
+                    //Make an order!
+                    break;
+
+                case "2":
+                    //Add products to an order!
+                    break;
+                case "3":
+                    //View details of an order!
+                    break;
+
+                case "4":
+                    //place an order!
+                    break;
+                case "5":
+                    //View order history!
+                    break;
+
+                case "x":
+                    exit = true;
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid input, try again");
+                    break;
+            }
+
+        } while (!exit);
+    }
 
     // create user or customer
     private void CreateNewUser()
     {
 
-        Console.WriteLine("Creating New User");
+        Console.WriteLine("Creating New Customer");
 
         Console.WriteLine("Enter Your Last Name: ");
         string lastname = InputValidation.validString();
@@ -117,15 +169,22 @@ public class CustomerMenu
         userToCreate.IsAdmin = false;
 
 
-        User? cratedUser = _bl.createNewUser(userToCreate);
-        if (cratedUser != null)
+        User? createdUser = _bl.createNewUser(userToCreate);
+        if (createdUser != null)
         {
-            outputMessage.sucessCreation(cratedUser.FirstName);
+            outputMessage.sucessCreation(createdUser.FirstName);
+            PortalCustomer(createdUser);
         }
         else
         {
             outputMessage.errorCreation();
         }
 
+    }
+
+    private void LogOut()
+    {
+        Console.WriteLine("Goodbye!");
+        new MainMenu(_bl).Start();
     }
 }

@@ -6,7 +6,7 @@ namespace UI;
 
 public class MainMenu
 {
-   private readonly IStoreBL _bl;
+    private readonly IStoreBL _bl;
 
     //Dependency injection
     public MainMenu(IStoreBL bl)
@@ -15,6 +15,10 @@ public class MainMenu
     }
 
     public void Start()
+    {
+        HomePage();
+    }
+    public void HomePage()
     {
         Console.WriteLine("Welcome to Store App");
         bool exit = false;
@@ -25,20 +29,18 @@ public class MainMenu
             Console.WriteLine("[1] Customer");
             Console.WriteLine("[2] Manager");
             Console.WriteLine("[x] Exit");
-            string input  = InputValidation.validString();
+            string input = InputValidation.validString();
 
             switch (input.ToLower())
             {
                 case "1":
                     //customer portal
-                    Console.WriteLine("Customer!!!");
                     new CustomerMenu(_bl).Start();
                     break;
 
                 case "2":
                     //Manager view
-                    Console.WriteLine("Manager!!!");
-                    new ManagerMenu().Start();
+                    new ManagerMenu(_bl).Start();
                     break;
                 case "x":
                     Console.WriteLine("Goodbye!");
@@ -53,5 +55,4 @@ public class MainMenu
         } while (!exit);
 
     }
-
 }
