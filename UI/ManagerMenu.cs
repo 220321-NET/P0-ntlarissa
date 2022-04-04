@@ -73,17 +73,17 @@ public class ManagerMenu
         User? gotUser = _bl.getUser(userToGet);
         if (gotUser != null)
         {
-            outputMessage.sucessConnexion(gotUser.FirstName);
-            PortalManager(gotUser);
+            OutputMessage.SucessConnexion(gotUser.FirstName);
+            PortalManager();
 
         }
         else
         {
-            outputMessage.errorConnexion();
+            OutputMessage.ErrorConnexion();
         }
     }
 
-    private void PortalManager(User manager)
+    private void PortalManager()
     {
         bool exit = false;
         do
@@ -121,6 +121,7 @@ public class ManagerMenu
                     break;
                 case "6":
                     //Add storeFront!
+                    AddStoreFront();
                     break;
 
                 case "x":
@@ -176,12 +177,12 @@ public class ManagerMenu
         User? createdUser = _bl.createNewUser(userToCreate);
         if (createdUser != null)
         {
-            outputMessage.sucessCreation(createdUser.FirstName);
-            PortalManager(createdUser);
+            OutputMessage.SucessCreation(createdUser.FirstName);
+            PortalManager();
         }
         else
         {
-            outputMessage.errorCreation();
+            OutputMessage.ErrorCreation();
         }
 
     }
@@ -190,5 +191,54 @@ public class ManagerMenu
     {
         Console.WriteLine("Goodbye!");
         new MainMenu(_bl).Start();
+    }
+
+    // add store
+    private void AddStoreFront()
+    {
+
+        Console.WriteLine("Creating New Store");
+
+        Console.WriteLine("Enter Name: ");
+        string name = InputValidation.validString();
+
+        Console.WriteLine("Enter address line1: ");
+        string line1 = InputValidation.validString();
+
+        Console.WriteLine("Enter address line2: ");
+        string line2 = InputValidation.validString();
+
+        Console.WriteLine("Enter address city: ");
+        string city = InputValidation.validString();
+
+        Console.WriteLine("Enter address state: ");
+        string state = InputValidation.validString();
+
+        Console.WriteLine("Enter address country: ");
+        string country = InputValidation.validString();
+
+        Console.WriteLine("Enter address zipCode: ");
+        string zipCode = InputValidation.validString();
+
+        StoreFront storeToAdd = new StoreFront();
+        storeToAdd.Name = name;
+        storeToAdd.Line1 = line1;
+        storeToAdd.Line2 = line2;
+        storeToAdd.City = city;
+        storeToAdd.State = state;
+        storeToAdd.Country = country;
+        storeToAdd.ZipCode = zipCode;
+
+        StoreFront? addedStore = _bl.addStoreFront(storeToAdd);
+        if (addedStore != null)
+        {
+            OutputMessage.SucessCreationSore();
+            PortalManager();
+        }
+        else
+        {
+            OutputMessage.ErrorCreationStore();
+        }
+
     }
 }

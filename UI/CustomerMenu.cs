@@ -78,13 +78,13 @@ public class CustomerMenu
         User? gotUser = _bl.getUser(userToGet);
         if (gotUser != null)
         {
-            outputMessage.sucessConnexion(gotUser.FirstName);
+            OutputMessage.SucessConnexion(gotUser.FirstName);
             PortalCustomer(gotUser);
 
         }
         else
         {
-            outputMessage.errorConnexion();
+            OutputMessage.ErrorConnexion();
         }
     }
 
@@ -172,12 +172,12 @@ public class CustomerMenu
         User? createdUser = _bl.createNewUser(userToCreate);
         if (createdUser != null)
         {
-            outputMessage.sucessCreation(createdUser.FirstName);
+            OutputMessage.SucessCreation(createdUser.FirstName);
             PortalCustomer(createdUser);
         }
         else
         {
-            outputMessage.errorCreation();
+            OutputMessage.ErrorCreation();
         }
 
     }
