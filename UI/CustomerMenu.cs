@@ -6,7 +6,7 @@ namespace UI;
 
 public class CustomerMenu
 {
-private readonly IStoreBL _bl;
+    private readonly IStoreBL _bl;
 
     //Dependency injection
     public CustomerMenu(IStoreBL bl)
@@ -57,8 +57,6 @@ private readonly IStoreBL _bl;
     private void LogToUser()
     {
 
-    //label, marks a spot in the code base that we can jump to later
-    EnterUserData:
         Console.WriteLine("Logging  User");
 
         Console.WriteLine("Enter Your UserName: ");
@@ -69,28 +67,16 @@ private readonly IStoreBL _bl;
         //connect to the database if the user exit return all the information to build user objet
 
         User userToGet = new User();
-        try
-        {
-            userToGet.UserName = username;
-            userToGet.Password = password;
-            userToGet.IsAdmin = false;
-            userToGet.Status = 0;
-        }
-        catch (ValidationException ex)
-        {
-            Console.WriteLine(ex.Message);
-            goto EnterUserData;
-        }
-        finally
-        {
-            //do stuff here, such as cleaning up the outside resources
-        }
-
-         User? gotUser = _bl.getUser(userToGet);
+        userToGet.UserName = username;
+        userToGet.Password = password;
+        userToGet.IsAdmin = false;
+        User? gotUser = _bl.getUser(userToGet);
         if (gotUser != null)
         {
             outputMessage.sucessConnexion(gotUser.FirstName);
-        }else{
+        }
+        else
+        {
             outputMessage.errorConnexion();
         }
     }
@@ -101,47 +87,44 @@ private readonly IStoreBL _bl;
     private void CreateNewUser()
     {
 
-    //label, marks a spot in the code base that we can jump to later
-    EnterUserData:
         Console.WriteLine("Creating New User");
 
         Console.WriteLine("Enter Your Last Name: ");
-        string? lastname = Console.ReadLine();
+        string lastname = InputValidation.validString();
 
         Console.WriteLine("Enter Your First Name: ");
-        string? firstname = Console.ReadLine();
+        string firstname = InputValidation.validString();
 
         Console.WriteLine("Enter Your UserName: ");
-        string? username = Console.ReadLine();
+        string username = InputValidation.validString();
 
         bool same = false;
         Console.WriteLine("Enter Your Password: ");
-        string? password = Console.ReadLine();
+        string password = InputValidation.validString();
         do
         {
 
             Console.WriteLine("Confirm Your Password: ");
-            string? passwordconf = Console.ReadLine();
+            string passwordconf = InputValidation.validString();
             same = password == passwordconf ? true : false;
         } while (!same);
 
-
-
         User userToCreate = new User();
-        try
+        userToCreate.FirstName = firstname;
+        userToCreate.LastName = lastname;
+        userToCreate.UserName = username;
+        userToCreate.Password = password;
+        userToCreate.IsAdmin = false;
+
+
+        User? cratedUser = _bl.createNewUser(userToCreate);
+        if (cratedUser != null)
         {
-            userToCreate.FirstName = firstname!;
-            userToCreate.LastName = lastname!;
-            userToCreate.UserName = username!;
+            outputMessage.sucessCreation(cratedUser.FirstName);
         }
-        catch (ValidationException ex)
+        else
         {
-            Console.WriteLine(ex.Message);
-            goto EnterUserData;
-        }
-        finally
-        {
-            //do stuff here, such as cleaning up the outside resources
+            outputMessage.errorCreation();
         }
 
     }

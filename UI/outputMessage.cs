@@ -14,4 +14,13 @@ public static class outputMessage
     {
         System.Console.WriteLine("Please check your information and try again!");
     }
+    public static void sucessCreation(string firstname)
+    {
+        System.Console.WriteLine($"{firstname} created successfully!");
+    }
+
+    public static void errorCreation()
+    {
+        System.Console.WriteLine("Something wrong, please change your username and try again!");
+    }
 }
