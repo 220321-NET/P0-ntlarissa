@@ -108,6 +108,7 @@ public class ManagerMenu
 
                 case "2":
                     //Add products!
+                    AddProduct();
                     break;
                 case "3":
                     //View  order history by location!
@@ -206,7 +207,7 @@ public class ManagerMenu
         string line1 = InputValidation.validString();
 
         Console.WriteLine("Enter address line2: ");
-        string line2 = InputValidation.validString();
+        string? line2 = Console.ReadLine();
 
         Console.WriteLine("Enter address city: ");
         string city = InputValidation.validString();
@@ -223,7 +224,7 @@ public class ManagerMenu
         StoreFront storeToAdd = new StoreFront();
         storeToAdd.Name = name;
         storeToAdd.Line1 = line1;
-        storeToAdd.Line2 = line2;
+        storeToAdd.Line2 = line2!;
         storeToAdd.City = city;
         storeToAdd.State = state;
         storeToAdd.Country = country;
@@ -232,7 +233,49 @@ public class ManagerMenu
         StoreFront? addedStore = _bl.addStoreFront(storeToAdd);
         if (addedStore != null)
         {
-            OutputMessage.SucessCreationSore();
+            OutputMessage.SucessCreation("New Store");
+            PortalManager();
+        }
+        else
+        {
+            OutputMessage.ErrorCreationStore();
+        }
+
+    }
+
+
+    private void AddProduct()
+    {
+
+        Console.WriteLine("Creating New Product");
+
+        Console.WriteLine("Enter Name: ");
+        string name = InputValidation.validString();
+
+        Console.WriteLine("Enter reference or description: ");
+        string productRef = InputValidation.validString();
+
+        Console.WriteLine("Enter quantity: ");
+        float quantity = InputValidation.validFloatPositif();
+
+        Console.WriteLine("Enter price: ");
+        float price = InputValidation.validFloatPositif();
+
+
+        Console.WriteLine("Enter the store ID: ");
+        int storeid = InputValidation.validIntPositif();
+
+        Product productToAdd = new Product();
+        productToAdd.NameProduct = name;
+        productToAdd.ProductRef = productRef;
+        productToAdd.ProductQuantity = quantity;
+        productToAdd.ProductPrice = price;
+        productToAdd.IDStore = storeid;
+
+        Product? addedStore = _bl.addProduct(productToAdd);
+        if (addedStore != null)
+        {
+            OutputMessage.SucessCreation("New Product");
             PortalManager();
         }
         else

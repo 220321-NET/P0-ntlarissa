@@ -19,7 +19,7 @@ public static class OutputMessage
         System.Console.WriteLine($"{firstname} created successfully!");
     }
 
-    public static void SucessCreationSore()
+    public static void SucessCreationStore()
     {
         System.Console.WriteLine("New store created successfully!");
     }

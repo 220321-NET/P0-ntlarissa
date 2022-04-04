@@ -18,7 +18,7 @@ public static class InputValidation
         }
         return valid;
     }
-/// <summary>
+    /// <summary>
     /// Check if int  input is valid.
     /// </summary>
     /// <returns>int</returns>
@@ -32,6 +32,25 @@ public static class InputValidation
         {
             Console.WriteLine("Enter a positif number: ");
             goto EnterInt;
+        }
+        return valid;
+    }
+
+
+    /// <summary>
+    /// Check if int  input is valid.
+    /// </summary>
+    /// <returns>int</returns>
+    public static float validFloatPositif()
+    {
+        float valid;
+    EnterFloat:
+        var validSring = Console.ReadLine();
+
+        if (float.TryParse(validSring, out valid) == false || valid < 1)
+        {
+            Console.WriteLine("Enter a positif number: ");
+            goto EnterFloat;
         }
         return valid;
     }
