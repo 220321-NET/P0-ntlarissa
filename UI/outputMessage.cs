@@ -37,4 +37,9 @@ public static class OutputMessage
     {
         System.Console.WriteLine("Something wrong, please check and try again!");
     }
+
+     public static void CartEmpty()
+    {
+        System.Console.WriteLine("Something wrong, your cart is empty!");
+    }
 }
