@@ -74,7 +74,7 @@ public class ManagerMenu
         if (gotUser != null)
         {
             OutputMessage.SucessConnexion(gotUser.FirstName);
-            PortalManager();
+            PortalManager(gotUser);
 
         }
         else
@@ -83,7 +83,7 @@ public class ManagerMenu
         }
     }
 
-    private void PortalManager()
+    private void PortalManager(User manager)
     {
         bool exit = false;
         do
@@ -95,7 +95,8 @@ public class ManagerMenu
             Console.WriteLine("[3] View  order history by location!");
             Console.WriteLine("[4] View order history by customer!");
             Console.WriteLine("[5] View inventory!");
-            Console.WriteLine("[6] Add storeFront!");
+            Console.WriteLine("[6] Replenish inventory!");
+            Console.WriteLine("[7] Add storeFront!");
             Console.WriteLine("[x] Exit");
             string input = InputValidation.validString();
 
@@ -103,12 +104,12 @@ public class ManagerMenu
             {
                 case "1":
                     //Add a new manager!
-                    CreateNewUser();
+                    CreateNewUser(manager);
                     break;
 
                 case "2":
                     //Add products!
-                    AddProduct();
+                    AddProduct(manager);
                     break;
                 case "3":
                     //View  order history by location!
@@ -119,10 +120,14 @@ public class ManagerMenu
                     break;
                 case "5":
                     //View inventory!
+                    ViewInventory(manager);
                     break;
                 case "6":
+                    //Replenish inventory!
+                    break;
+                case "7":
                     //Add storeFront!
-                    AddStoreFront();
+                    AddStoreFront(manager);
                     break;
 
                 case "x":
@@ -138,7 +143,7 @@ public class ManagerMenu
     }
 
     // create user or customer
-    private void CreateNewUser()
+    private void CreateNewUser(User manager)
     {
 
         Console.WriteLine("Creating New Manager");
@@ -179,7 +184,7 @@ public class ManagerMenu
         if (createdUser != null)
         {
             OutputMessage.SucessCreation(createdUser.FirstName);
-            PortalManager();
+            PortalManager(manager);
         }
         else
         {
@@ -195,7 +200,7 @@ public class ManagerMenu
     }
 
     // add store
-    private void AddStoreFront()
+    private void AddStoreFront(User manager)
     {
 
         Console.WriteLine("Creating New Store");
@@ -234,7 +239,7 @@ public class ManagerMenu
         if (addedStore != null)
         {
             OutputMessage.SucessCreation("New Store");
-            PortalManager();
+            PortalManager(manager);
         }
         else
         {
@@ -244,7 +249,7 @@ public class ManagerMenu
     }
 
 
-    private void AddProduct()
+    private void AddProduct(User manager)
     {
 
         Console.WriteLine("Creating New Product");
@@ -262,21 +267,43 @@ public class ManagerMenu
         float price = InputValidation.validFloatPositif();
 
 
-        Console.WriteLine("Enter the store ID: ");
-        int storeid = InputValidation.validIntPositif();
+        // Console.WriteLine("Enter the store ID: ");
+        // int storeid = InputValidation.validIntPositif();
 
         Product productToAdd = new Product();
         productToAdd.NameProduct = name;
         productToAdd.ProductRef = productRef;
         productToAdd.ProductQuantity = quantity;
         productToAdd.ProductPrice = price;
-        productToAdd.IDStore = storeid;
+        productToAdd.IDStore = manager.IDStore;
 
         Product? addedStore = _bl.addProduct(productToAdd);
         if (addedStore != null)
         {
             OutputMessage.SucessCreation("New Product");
-            PortalManager();
+            PortalManager(manager);
+        }
+        else
+        {
+            OutputMessage.ErrorCreationStore();
+        }
+
+    }
+
+    private void ViewInventory(User manager)
+    {
+
+        // get all product by store
+
+        List<Product>? allProducts = _bl.GetAllProductByStore(manager.IDStore);
+        if (allProducts != null)
+        {
+            Console.WriteLine("Here are all the products in the store");
+            foreach (Product productToDisplay in allProducts)
+            {
+                Console.WriteLine(productToDisplay);
+            }
+            PortalManager(manager);
         }
         else
         {
