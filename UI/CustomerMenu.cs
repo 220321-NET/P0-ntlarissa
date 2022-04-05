@@ -57,37 +57,6 @@ public class CustomerMenu
 
         } while (!exit);
     }
-
-    // log to an account user or customer
-    private void LogToUser()
-    {
-
-        Console.WriteLine("Logging  Customer");
-
-        Console.WriteLine("Enter Your UserName: ");
-        string username = InputValidation.validString();
-        Console.WriteLine("Enter Your Password: ");
-        string? password = InputValidation.validString();
-
-        //connect to the database if the user exit return all the information to build user objet
-
-        User userToGet = new User();
-        userToGet.UserName = username;
-        userToGet.Password = password;
-        userToGet.IsAdmin = false;
-        User? gotUser = _bl.getUser(userToGet);
-        if (gotUser != null)
-        {
-            OutputMessage.SucessConnexion(gotUser.FirstName);
-            PortalCustomer(gotUser, new Order());
-
-        }
-        else
-        {
-            OutputMessage.ErrorConnexion();
-        }
-    }
-
     private void PortalCustomer(User customer, Order orderCustomer)
     {
         bool exit = false;
@@ -121,6 +90,7 @@ public class CustomerMenu
 
                 case "4":
                     //place an order!
+                    PlaceOrder(customer, orderCustomer);
                     break;
                 case "5":
                     //View order history!
@@ -137,6 +107,41 @@ public class CustomerMenu
 
         } while (!exit);
     }
+    // log to an account user or customer
+    private void LogToUser()
+    {
+
+        Console.WriteLine("Logging  Customer");
+
+        Console.WriteLine("Enter Your UserName: ");
+        string username = InputValidation.validString();
+        Console.WriteLine("Enter Your Password: ");
+        string? password = InputValidation.validString();
+
+        //connect to the database if the user exit return all the information to build user objet
+
+        User userToGet = new User();
+        userToGet.UserName = username;
+        userToGet.Password = password;
+        userToGet.IsAdmin = false;
+        User? gotUser = _bl.getUser(userToGet);
+        if (gotUser != null)
+        {
+            OutputMessage.SucessConnexion(gotUser.FirstName);
+            Order order = new Order();
+            order.OrderRef = Guid.NewGuid().ToString("N");
+            order.CustomerID = gotUser.ID;
+            order.OrderDate = DateTime.Now;
+            PortalCustomer(gotUser, order);
+
+        }
+        else
+        {
+            OutputMessage.ErrorConnexion();
+        }
+    }
+
+
 
     // create user or customer
     private void CreateNewUser()
@@ -176,7 +181,11 @@ public class CustomerMenu
         if (createdUser != null)
         {
             OutputMessage.SucessCreation(createdUser.FirstName);
-            PortalCustomer(createdUser, new Order());
+            Order order = new Order();
+            order.OrderRef = Guid.NewGuid().ToString("N");
+            order.CustomerID = createdUser.ID;
+            order.OrderDate = DateTime.Now;
+            PortalCustomer(createdUser, order);
         }
         else
         {
@@ -191,12 +200,11 @@ public class CustomerMenu
         new MainMenu(_bl).Start();
     }
 
-    
+
 
     private void AddProductToOrder(User customer, Order orderMaking)
     {
 
-        orderMaking.CustomerID = customer.ID;
         // get all product 
         List<Product>? allProducts = _bl.GetAllProduct();
         List<Product>? allProductsDisplay = new List<Product>();
@@ -315,5 +323,21 @@ public class CustomerMenu
         System.Console.WriteLine(orderMaking);
         System.Console.WriteLine("==============================================================================\n");
         PortalCustomer(customer, orderMaking);
+    }
+
+    private void PlaceOrder(User customer, Order orderMaking)
+    {
+        Order? placedOrder = _bl.placeOrder(orderMaking);
+        if (placedOrder != null)
+        {
+            Order order = new Order();
+            order.OrderRef = Guid.NewGuid().ToString("N");
+            OutputMessage.SuccessPlaceOrder();
+            PortalCustomer(customer, order);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
     }
 }

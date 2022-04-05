@@ -42,4 +42,9 @@ public static class OutputMessage
     {
         System.Console.WriteLine("Something wrong, your cart is empty!");
     }
+
+    public static void SuccessPlaceOrder()
+    {
+        System.Console.WriteLine($"You order placed  successfully!");
+    }
 }
