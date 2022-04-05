@@ -94,6 +94,7 @@ public class CustomerMenu
                     break;
                 case "5":
                     //View order history!
+                    ViewHistory(customer, orderCustomer);
                     break;
 
                 case "x":
@@ -334,6 +335,25 @@ public class CustomerMenu
             order.OrderRef = Guid.NewGuid().ToString("N");
             OutputMessage.SuccessPlaceOrder();
             PortalCustomer(customer, order);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
+    }
+    private void ViewHistory(User customer, Order orderCustomer)
+    {
+        List<Order>? gethistory = _bl.getHistoryOrder(customer.ID);
+        if (gethistory != null)
+        {
+            Console.WriteLine("Here are all  your history\n");
+            foreach (Order orderDisplay in gethistory)
+            {//Display  the products  exist in order making
+                Console.WriteLine(orderDisplay);
+                System.Console.WriteLine("==============================================================================");
+
+            }
+            PortalCustomer(customer, orderCustomer);
         }
         else
         {

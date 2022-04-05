@@ -4,19 +4,8 @@ namespace Models;
 
 public class User
 {
-    // private string idcustomer = "";
-    // public string IDCustomer
-    // {
-    //     get => idcustomer;
-    //     set
-    //     {
-    //         if (String.IsNullOrWhiteSpace(value))
-    //         {
-    //             throw new ValidationException("idcustomer cannot be empty");
-    //         }
-    //         idcustomer = value;
-    //     }
-    // }
+    public int ID { get; set; }
+    public int IDStore { get; set; }
     private string lastname = "";
     public string LastName
     {
@@ -25,7 +14,7 @@ public class User
         {
             if (String.IsNullOrWhiteSpace(value))
             {
-                throw new ValidationException("Last name cannot be empty");
+                throw new ValidationException("Last name cannot be empty!!!");
             }
             lastname = value;
         }
@@ -38,14 +27,26 @@ public class User
         {
             if (String.IsNullOrWhiteSpace(value))
             {
-                throw new ValidationException("First name cannot be empty");
+                throw new ValidationException("First name cannot be empty!!!");
             }
             firstname = value;
         }
     }
 
     private string password = "";
-    public int Password { get; private set; }
+    public string Password 
+    {
+        get => password;
+        set
+        {
+            if (String.IsNullOrWhiteSpace(value))
+            {
+                throw new ValidationException("Password cannot be empty!!!1");
+            }
+            password = value;
+        }
+    }
+    
     private string username = "";
     public string UserName
     {
@@ -54,10 +55,15 @@ public class User
         {
             if (String.IsNullOrWhiteSpace(value))
             {
-                throw new ValidationException("username cannot be empty");
+                throw new ValidationException("Username cannot be empty!!!");
             }
             username = value;
         }
     }
+
+    // //status is 0 when the user is disconned or 1 when the user is connected
+    // public int Status { get;  set; }
+
+    public bool IsAdmin { get;  set; }
 
 }

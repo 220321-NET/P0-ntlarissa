@@ -1,5 +1,3 @@
-
-
 namespace DL;
 
 /// <summary>
@@ -14,11 +12,33 @@ public interface IStoreDL
     // /// <param name="userName">Username of customer.</param>
     // /// <param name="password">Password of customer.</param>
     // User? customerConnexion(string userName, string password);
-    // /// <summary>
-    // /// adds a new customer
-    // ///</summary>
-    // ///<param name="customerToCreate"> Customer object to be inserted</param>
-    // User? createNewCustomer(User customerToCreate);
+
+
+    /// <summary>
+    /// adds a new user
+    ///</summary>
+    ///<param name="userToCreate"> User object to be inserted or added</param>
+    User createNewUser(User userToCreate);
+
+
+    /// <summary>
+    /// get an existant user
+    ///</summary>
+    ///<param name="userToGet"> User object to be got</param>
+    User getUser(User userToGet);
+
+    StoreFront addStoreFront(StoreFront storeToAdd);
+
+    Product addProduct(Product productToAdd);
+
+    List<Product> GetAllProductByStore(int store);
+    List<Product> GetAllProduct();
+
+    Product updateProduct(Product productToUpdate);
+
+    List<Order> getHistoryOrder(int id);
+
+    Order placeOrder(Order orderToPlace);
 
     // /// <summary>
     // /// adds a new manager
