@@ -17,7 +17,7 @@ The store app is a software that helps customers purchase products from your bus
 
 # **Methodologie**
 
-
+![test](P0Entity.png)
   ## **Modelisation**
   
       **Entity Diagram**
