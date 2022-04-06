@@ -16,17 +16,13 @@ The store app is a software that helps customers purchase products from your bus
 - replenish inventory
 
 # **Methodologie**
-
+## **Modelisation**
+**Entity Diagram**
 ![test](P0Entity.png)
-  ## **Modelisation**
-  
-      **Entity Diagram**
-     
-    ![entity](P0Entity.png)
 
-    **UML Diagram**
-    
-    ![uml](P0-UML.png)
+ **UML Diagram**
+![uml](P0-UML.png)
+ 
 
   ## **Technologie stack**
     
