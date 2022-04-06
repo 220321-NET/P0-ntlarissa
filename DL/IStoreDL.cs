@@ -33,6 +33,7 @@ public interface IStoreDL
 
     List<Product> GetAllProductByStore(int store);
     List<Product> GetAllProduct();
+    List<User> GetAllCustomer();
 
     Product updateProduct(Product productToUpdate);
 

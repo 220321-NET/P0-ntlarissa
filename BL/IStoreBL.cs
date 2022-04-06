@@ -13,4 +13,6 @@ public interface IStoreBL
     Order placeOrder(Order orderToPlace);
 
     List<Order> getHistoryOrder(int id);
+
+    List<User> GetAllCustomer();
 }

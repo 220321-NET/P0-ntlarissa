@@ -113,10 +113,12 @@ public class ManagerMenu
                     break;
                 case "3":
                     //View  order history by location!
+                    ViewHistoryByCustomer(manager);
                     break;
 
                 case "4":
                     //View order history by customer!
+                    ViewHistoryByCustomer(manager);
                     break;
                 case "5":
                     //View inventory!
@@ -373,5 +375,31 @@ public class ManagerMenu
             OutputMessage.ErrorOperation();
         }
 
+    }
+    private void ViewHistoryByCustomer(User manager)
+    {
+        List<User> listCustomer = _bl.GetAllCustomer();
+        if (listCustomer != null)
+        {
+            foreach (User customer in listCustomer)
+            {
+                List<Order>? gethistory = _bl.getHistoryOrder(customer.ID);
+                if (gethistory != null)
+                {
+                    Console.WriteLine($"Order {customer.UserName}\n");
+                    foreach (Order orderDisplay in gethistory)
+                    {//Display  the products  exist in order making
+                        Console.WriteLine(orderDisplay);
+                        System.Console.WriteLine("=================================================================");
+
+                    }
+                }
+            }
+            PortalManager(manager);
+        }
+        else
+        {
+            System.Console.WriteLine("There are not customer.");
+        }
     }
 }

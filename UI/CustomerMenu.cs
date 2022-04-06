@@ -29,7 +29,7 @@ public class CustomerMenu
         do
         {
 
-            Console.WriteLine("What would you like to do today?");
+            Console.WriteLine("\nWhat would you like to do today?");
             Console.WriteLine("[1] Log IN");
             Console.WriteLine("[2] Sign UP");
             Console.WriteLine("[x] Exit");
@@ -63,7 +63,7 @@ public class CustomerMenu
         do
         {
 
-            Console.WriteLine("What would you like to do today?");
+            Console.WriteLine("\nWhat would you like to do today?");
             Console.WriteLine("[1] Add products to an order!");
             Console.WriteLine("[2] Remove products to an order!");
             Console.WriteLine("[3] View details of an order!");
@@ -212,25 +212,25 @@ public class CustomerMenu
         if (allProducts != null)
         {
 
-            Console.WriteLine("Here are all the products in the store");
+            Console.WriteLine("\nHere are all the products in the store");
             foreach (Product productToDisplay in allProducts)
             {//Display only the products do not exist in order making
                 if (!orderMaking.Products.Exists(x => x.IDProduct == productToDisplay.IDProduct))
                 {
 
                     Console.WriteLine(productToDisplay);
-                    System.Console.WriteLine("==============================================================================");
+                    System.Console.WriteLine("================================================================");
                     allProductsDisplay.Add(productToDisplay);
                 }
             }
             if (allProductsDisplay.Count < 1)
             {
-                System.Console.WriteLine("Your cart contains all the products. Choose remove or update. ");
+                System.Console.WriteLine("\nYour cart contains all the products. Choose remove or update. ");
                 PortalCustomer(customer, orderMaking);
             }
             else
             {
-                System.Console.WriteLine("Which product do you want to add. Enter the  Product ID");
+                System.Console.WriteLine("\nWhich product do you want to add. Enter the  Product ID");
             EnterID:
                 int id = InputValidation.validIntPositif();
                 if (allProductsDisplay.Exists(x => x.IDProduct == id))
@@ -284,7 +284,7 @@ public class CustomerMenu
             foreach (Product productToDisplay in orderMaking.Products)
             {//Display  the products  exist in order making
                 Console.WriteLine(productToDisplay);
-                System.Console.WriteLine("==============================================================================");
+                System.Console.WriteLine("====================================================================");
 
             }
             System.Console.WriteLine("\nWhich product do you want to remove. Enter the  Product ID");
@@ -350,7 +350,7 @@ public class CustomerMenu
             foreach (Order orderDisplay in gethistory)
             {//Display  the products  exist in order making
                 Console.WriteLine(orderDisplay);
-                System.Console.WriteLine("==============================================================================");
+                System.Console.WriteLine("=================================================================");
 
             }
             PortalCustomer(customer, orderCustomer);

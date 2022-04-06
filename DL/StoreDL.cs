@@ -346,7 +346,11 @@ public class StoreDL : IStoreDL
                 product.ProductRef = (string)row["productRef"];
                 product.ProductQuantity = Convert.ToSingle(row["ProductQuantity"]);
                 product.ProductPrice = Convert.ToSingle(row["productPrice"]);
-                products.Add(product);
+                if (product.ProductQuantity > 0)
+                {
+                    products.Add(product);
+                }
+
             }
             return products;
         }
@@ -377,7 +381,10 @@ public class StoreDL : IStoreDL
                 newRow["price"] = prods.ProductPrice;
                 newRow["orderDate"] = orderToPlace.OrderDate;
                 newRow["orderRef"] = orderToPlace.OrderRef;
+                newRow["total"] = orderToPlace.OrderTotal;
                 newRow["productID"] = prods.IDProduct;
+                newRow["productName"] = prods.NameProduct;
+                newRow["productRef"] = prods.ProductRef;
                 newRow["customerID"] = orderToPlace.CustomerID;
                 orderTable.Rows.Add(newRow);
                 if (!updateProductQty(prods.IDProduct, prods.ProductQuantity))
@@ -464,13 +471,13 @@ public class StoreDL : IStoreDL
         }
         return qty;
     }
-    public  List<Order> getHistoryOrder(int id)
+    public List<Order> getHistoryOrder(int id)
     {
         List<Order> gethistory = new List<Order>();
         DataSet orderSet = new DataSet();
 
         using SqlConnection connection = new SqlConnection(_connectionString);
-        using SqlCommand cmd = new SqlCommand("SELECT * FROM Orders WHERE customerID = @id", connection);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Orders WHERE customerID = @id ORDER BY orderRef", connection);
         cmd.Parameters.AddWithValue("@id", id);
 
         SqlDataAdapter orderAdapter = new SqlDataAdapter(cmd);
@@ -480,20 +487,71 @@ public class StoreDL : IStoreDL
         DataTable? orderTable = orderSet.Tables["OrderTable"];
         if (orderTable != null && orderTable.Rows.Count > 0)
         {
+            string orderref;
+            int position;
             for (int i = 0; i < orderTable.Rows.Count; i++)
             {
-                Order order = new Order();
-                Product product = new Product();
-                order.CustomerID = id;
-                order.OrderDate = (DateTime)orderTable.Rows[i]["orderDate"];
-                order.OrderRef = (string)orderTable.Rows[i]["orderRef"];
-                product.ProductQuantity = Convert.ToSingle(orderTable.Rows[i]["quantity"]);
-                product.ProductPrice = Convert.ToSingle(orderTable.Rows[i]["price"]);
-                product.IDProduct = (int)orderTable.Rows[i]["productID"];
-                order.Products.Add(product);
-                gethistory.Add(order);
+
+                orderref = (string)orderTable.Rows[i]["orderRef"];
+                position = gethistory.FindIndex(x => x.OrderRef == orderref);
+                if (position == -1) //ref order doest not exist in the list 
+                {
+                    Order order = new Order();
+                    Product product = new Product();
+                    order.CustomerID = id;
+                    order.OrderDate = (DateTime)orderTable.Rows[i]["orderDate"];
+                    order.OrderRef = (string)orderTable.Rows[i]["orderRef"];
+                    product.ProductQuantity = Convert.ToSingle(orderTable.Rows[i]["quantity"]);
+                    product.ProductPrice = Convert.ToSingle(orderTable.Rows[i]["price"]);
+                    order.OrderTotal = Convert.ToSingle(orderTable.Rows[i]["total"]);
+                    product.IDProduct = (int)orderTable.Rows[i]["productID"];
+                    product.NameProduct = (string)orderTable.Rows[i]["productName"];
+                    product.ProductRef = (string)orderTable.Rows[i]["productRef"];
+                    order.Products.Add(product);
+                    gethistory.Add(order);
+                }
+                else
+                {
+                    Product product = new Product();
+                    product.ProductQuantity = Convert.ToSingle(orderTable.Rows[i]["quantity"]);
+                    product.ProductPrice = Convert.ToSingle(orderTable.Rows[i]["price"]);
+                    product.IDProduct = (int)orderTable.Rows[i]["productID"];
+                    product.NameProduct = (string)orderTable.Rows[i]["productName"];
+                    product.ProductRef = (string)orderTable.Rows[i]["productRef"];
+                    gethistory[position].Products.Add(product);
+                }
+
             }
             return gethistory;
+        }
+        return null!;
+    }
+
+    public List<User> GetAllCustomer()
+    {
+        List<User> customers = new List<User>();
+        DataSet customerSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Customers", connection);
+
+        SqlDataAdapter customerAdapter = new SqlDataAdapter(cmd);
+
+        customerAdapter.Fill(customerSet, "CustomerTable");
+
+        DataTable? CustmomerTable = customerSet.Tables["CustomerTable"];
+        if (CustmomerTable != null && CustmomerTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in CustmomerTable.Rows)
+            {
+                User customer = new User();
+                customer.ID = (int)row["customerID"];
+                customer.FirstName = (string)row["customerFirstName"];
+                customer.LastName = (string)row["customerLastName"];
+                customer.UserName = (string)row["customerUserName"];
+                customers.Add(customer);
+            }
+            return customers;
         }
         return null!;
     }

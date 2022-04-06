@@ -64,7 +64,10 @@ CREATE TABLE Orders (
     orderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
 	quantity FLOAT  NULL,
 	price FLOAT  NULL,
+	total FLOAT  NULL,
 	orderRef VARCHAR(50)  NULL,
+	productRef VARCHAR(max)  NULL,
+	productName VARCHAR(50) NOT NULL,
 	productID INT FOREIGN KEY REFERENCES Products(productID) ON DELETE CASCADE,
 	customerID INT FOREIGN KEY REFERENCES Customers(customerID) ON DELETE CASCADE,
 )

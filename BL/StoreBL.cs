@@ -51,6 +51,9 @@ public class StoreBL : IStoreBL
     {
         return _repo.getHistoryOrder(id);
     }
+    public List<User> GetAllCustomer(){
+        return _repo.GetAllCustomer();
+    }
 
 
 }
