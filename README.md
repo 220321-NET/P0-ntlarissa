@@ -20,7 +20,11 @@ The store app is a software that helps customers purchase products from your bus
 
   ## **Modelisation**
   
-    ### **Architecture**
+     ### **Entity Diagram**
+    ![alt text](https://github.com/220321-NET/P0-ntlarissa/blob/master/P0Entity.png?raw=true)
+
+    ### **UML Diagram**
+    ![alt text](https://github.com/220321-NET/P0-ntlarissa/blob/master/P0-UML.png?raw=true)
 
   ## **Technologie stack**
     
