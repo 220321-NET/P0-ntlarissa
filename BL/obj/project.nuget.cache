@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Qe16Acb0HkH/f2/vf+j/xpABphVoBQqnQpU1Z+TiYqKg+hrDBIZxr5QuIyXi/0XrFcRzDLiXB3/Xm4uti7xeKg==",
+  "dgSpecHash": "xne4FyQ4dtogV4rHkJ0Dfqbh47l55Q2e1nUhJE/AwYcKRTuhPBgdXStOeQrCMNK5v9bMVu0m1qJ4UQFWS2Zuzw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ltcha\\revature\\StoreApp\\BL\\BL.csproj",
+  "projectFilePath": "C:\\Users\\ltcha\\revature\\P1-ntlarissa\\BL\\BL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ltcha\\.nuget\\packages\\azure.core\\1.6.0\\azure.core.1.6.0.nupkg.sha512",
     "C:\\Users\\ltcha\\.nuget\\packages\\azure.identity\\1.3.0\\azure.identity.1.3.0.nupkg.sha512",
