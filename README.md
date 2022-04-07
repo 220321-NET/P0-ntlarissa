@@ -16,7 +16,11 @@ The store app is a software that helps customers purchase products from your bus
 - replenish inventory
 
 # **Methodologie**
+## **Modelisation**
+**Entity Diagram**
+![test](P0Entity.png)
 
+<<<<<<< HEAD
 
   ## **Modelisation**
   
@@ -25,6 +29,11 @@ The store app is a software that helps customers purchase products from your bus
 
     ### **UML Diagram**
     ![alt text](https://github.com/220321-NET/P0-ntlarissa/blob/master/P0-UML.png?raw=true)
+=======
+ **UML Diagram**
+![uml](P0-UML.png)
+ 
+>>>>>>> 9d85f94f8c94c118ba7ffacf755f22da41668897
 
   ## **Technologie stack**
     
