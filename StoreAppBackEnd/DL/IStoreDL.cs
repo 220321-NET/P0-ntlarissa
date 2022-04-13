@@ -18,7 +18,8 @@ public interface IStoreDL
     /// adds a new user
     ///</summary>
     ///<param name="userToCreate"> User object to be inserted or added</param>
-    //User createNewUser(User userToCreate);
+    //Task<User> createNewUserAsync(User userToCreate);
+    User createNewUser(User userToCreate);
 
 
     /// <summary>
@@ -29,10 +30,10 @@ public interface IStoreDL
 
     // StoreFront addStoreFront(StoreFront storeToAdd);
 
-    // Product addProduct(Product productToAdd);
+     Product addProduct(Product productToAdd);
 
     // List<Product> GetAllProductByStore(int store);
-    // List<Product> GetAllProduct();
+     Task<List<Product>> GetAllProductAsync();
     // List<User> GetAllCustomer();
 
     // Product updateProduct(Product productToUpdate);

@@ -2,15 +2,16 @@ namespace BL;
 
 public interface IStoreBL
 {
-   // User createNewUser(User userToCreate);
+    User createNewUser(User userToCreate);
     Task<User> getUserAsync(string username);
 
 
 
     // StoreFront addStoreFront(StoreFront storeToAdd);
-    // Product addProduct(Product productToAdd);
+    Product addProduct(Product productToAdd);
     // List<Product> GetAllProductByStore(int store);
-    // List<Product> GetAllProduct();
+         Task<List<Product>> GetAllProductAsync();
+
     // Product updateProduct(Product productToUpdate);
     // Order placeOrder(Order orderToPlace);
 

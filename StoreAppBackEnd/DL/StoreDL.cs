@@ -30,6 +30,47 @@ public class StoreDL : IStoreDL
 
     // }
 
+    public User createNewUser(User userToCreate)
+    {
+        //add customer
+        DataSet customerSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Customers WHERE customerID = -1", connection);
+
+        SqlDataAdapter customerAdapter = new SqlDataAdapter(cmd);
+
+        customerAdapter.Fill(customerSet, "CustomerTable");
+
+        DataTable? customerTable = customerSet.Tables["CustomerTable"];
+        if (customerTable != null)
+        {
+            DataRow newRow = customerTable.NewRow();
+            newRow["customerUserName"] = userToCreate.UserName;
+            newRow["customerFirstName"] = userToCreate.FirstName;
+            newRow["customerLastName"] = userToCreate.LastName;
+            newRow["customerPassword"] = userToCreate.Password;
+
+            customerTable.Rows.Add(newRow);
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(customerAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
+
+            customerAdapter.InsertCommand = insert;
+
+            try
+            {
+                customerAdapter.Update(customerTable);
+                return userToCreate;
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+        return null!;
+    }
+
     // public User createNewUser(User userToCreate)
     // {
     //     if (userToCreate.IsAdmin)
@@ -157,7 +198,7 @@ public class StoreDL : IStoreDL
                     customerAdapter.Fill(customerSet, "CustomerTable");
 
                     DataTable? customerTable = customerSet.Tables["CustomerTable"];
-                    if (customerTable != null && customerTable.Rows.Count > 0 )
+                    if (customerTable != null && customerTable.Rows.Count > 0)
                     {
                         userToGet.ID = (int)customerTable.Rows[0]["customerID"];
                         userToGet.FirstName = (string)customerTable.Rows[0]["customerFirstName"];
@@ -217,47 +258,49 @@ public class StoreDL : IStoreDL
     // }
 
 
-    // public Product addProduct(Product productToAdd)
-    // {
-    //     //add product
-    //     DataSet productSet = new DataSet();
+    public Product addProduct(Product productToAdd)
+    {
 
-    //     using SqlConnection connection = new SqlConnection(_connectionString);
-    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Products WHERE productID = -1", connection);
+        //add product
+        DataSet productSet = new DataSet();
 
-    //     SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Products WHERE productID = -1", connection);
 
-    //     productAdapter.Fill(productSet, "ProductTable");
+        SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
 
-    //     DataTable? productTable = productSet.Tables["ProductTable"];
-    //     if (productTable != null)
-    //     {
-    //         DataRow newRow = productTable.NewRow();
-    //         newRow["productQuantity"] = productToAdd.ProductQuantity;
-    //         newRow["productPrice"] = productToAdd.ProductPrice;
-    //         newRow["productRef"] = productToAdd.ProductRef;
-    //         newRow["productName"] = productToAdd.NameProduct;
-    //         newRow["storeID"] = productToAdd.IDStore;
+        productAdapter.Fill(productSet, "ProductTable");
 
-    //         productTable.Rows.Add(newRow);
+        DataTable? productTable = productSet.Tables["ProductTable"];
+        if (productTable != null)
+        {
+            DataRow newRow = productTable.NewRow();
+            newRow["productQuantity"] = productToAdd.ProductQuantity;
+            newRow["productPrice"] = productToAdd.ProductPrice;
+            newRow["productRef"] = productToAdd.ProductRef;
+            newRow["productName"] = productToAdd.NameProduct;
+            newRow["storeID"] = productToAdd.IDStore;
 
-    //         SqlCommandBuilder commandBuilder = new SqlCommandBuilder(productAdapter);
-    //         SqlCommand insert = commandBuilder.GetInsertCommand();
+            productTable.Rows.Add(newRow);
 
-    //         productAdapter.InsertCommand = insert;
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(productAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
 
-    //         try
-    //         {
-    //             productAdapter.Update(productTable);
-    //             return productToAdd;
-    //         }
-    //         catch (Exception)
-    //         {
-    //             return null!;
-    //         }
-    //     }
-    //     return null!;
-    // }
+            productAdapter.InsertCommand = insert;
+
+            try
+            {
+                productAdapter.Update(productTable);
+                return productToAdd;
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+        return null!;
+
+    }
     // public List<Product> GetAllProductByStore(int store)
     // {
     //     List<Product> products = new List<Product>();
@@ -326,41 +369,44 @@ public class StoreDL : IStoreDL
     //     return null!;
     // }
 
-    // public List<Product> GetAllProduct()
-    // {
-    //     List<Product> products = new List<Product>();
-    //     DataSet productSet = new DataSet();
+    public async Task<List<Product>> GetAllProductAsync()
+    {
+        return await Task.Factory.StartNew(() =>
+                {
+                    List<Product> products = new List<Product>();
+                    DataSet productSet = new DataSet();
 
-    //     using SqlConnection connection = new SqlConnection(_connectionString);
-    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Products", connection);
+                    using SqlConnection connection = new SqlConnection(_connectionString);
+                    using SqlCommand cmd = new SqlCommand("SELECT * FROM Products", connection);
 
-    //     SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+                    SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
 
-    //     productAdapter.Fill(productSet, "ProductTable");
+                    productAdapter.Fill(productSet, "ProductTable");
 
-    //     DataTable? ProductTable = productSet.Tables["ProductTable"];
-    //     if (ProductTable != null && ProductTable.Rows.Count > 0)
-    //     {
-    //         foreach (DataRow row in ProductTable.Rows)
-    //         {
-    //             Product product = new Product();
+                    DataTable? ProductTable = productSet.Tables["ProductTable"];
+                    if (ProductTable != null && ProductTable.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in ProductTable.Rows)
+                        {
+                            Product product = new Product();
 
-    //             product.IDProduct = (int)row["productID"];
-    //             product.IDStore = (int)row["storeID"];
-    //             product.NameProduct = (string)row["productName"];
-    //             product.ProductRef = (string)row["productRef"];
-    //             product.ProductQuantity = Convert.ToSingle(row["ProductQuantity"]);
-    //             product.ProductPrice = Convert.ToSingle(row["productPrice"]);
-    //             if (product.ProductQuantity > 0)
-    //             {
-    //                 products.Add(product);
-    //             }
+                            product.IDProduct = (int)row["productID"];
+                            product.IDStore = (int)row["storeID"];
+                            product.NameProduct = (string)row["productName"];
+                            product.ProductRef = (string)row["productRef"];
+                            product.ProductQuantity = Convert.ToSingle(row["ProductQuantity"]);
+                            product.ProductPrice = Convert.ToSingle(row["productPrice"]);
+                            if (product.ProductQuantity > 0)
+                            {
+                                products.Add(product);
+                            }
 
-    //         }
-    //         return products;
-    //     }
-    //     return null!;
-    // }
+                        }
+                        return products;
+                    }
+                    return null!;
+                });
+    }
 
 
     // public Order placeOrder(Order orderToPlace)

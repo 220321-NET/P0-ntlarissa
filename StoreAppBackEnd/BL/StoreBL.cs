@@ -9,10 +9,11 @@ public class StoreBL : IStoreBL
     {
         _repo = repo;
     }
-    // public User createNewUser(User userToCreate)
-    // {
-    //     return _repo.createNewUser(userToCreate);
-    // }
+
+    public  User createNewUser(User userToCreate)
+    {
+        return  _repo.createNewUser(userToCreate);
+    }
 
     public async Task<User> getUserAsync(string username)
     {
@@ -23,20 +24,21 @@ public class StoreBL : IStoreBL
     // {
     //     return _repo.addStoreFront(storeToAdd);
     // }
-    // public Product addProduct(Product productToAdd)
-    // {
-    //     return _repo.addProduct(productToAdd);
-    // }
+     public Product addProduct(Product productToAdd)
+    {
+        return _repo.addProduct(productToAdd);
+    }
 
     // public List<Product> GetAllProductByStore(int store)
     // {
     //     return _repo.GetAllProductByStore(store);
     // }
 
-    // public List<Product> GetAllProduct()
-    // {
-    //     return _repo.GetAllProduct();
-    // }
+    public async Task<List<Product>> GetAllProductAsync()
+    {
+        return await _repo.GetAllProductAsync();
+    }
+
     // public Product updateProduct(Product productToUpdate)
     // {
     //     return _repo.updateProduct(productToUpdate);

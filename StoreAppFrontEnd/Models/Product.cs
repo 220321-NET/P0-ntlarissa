@@ -23,7 +23,7 @@ public float ProductPrice { get;  set; }
 
  public override string ToString()
     {
-        string qString = $"ID Product: {IDProduct} \nName Product: {NameProduct} \nDescription Product: {ProductRef} \nQuantity: {ProductQuantity} \nPrice: {ProductPrice}";
+        string qString = $"ID : {IDProduct}  || Name : {NameProduct}   || Description : {ProductRef} || Quantity: {ProductQuantity} || Price: {ProductPrice}";
        return  qString;
     }
 }

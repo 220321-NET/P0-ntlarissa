@@ -31,4 +31,41 @@ public class HttpService
             throw;
         }
     }
+
+    public async Task<User> createNewUser(User userToCreate)
+    {
+        string serializedUser = JsonSerializer.Serialize(userToCreate);
+        StringContent content = new StringContent(serializedUser, Encoding.UTF8, "application/json");
+        try
+        {
+            HttpResponseMessage response = await client.PostAsync("User", content);
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<User>(responseString) ?? new User();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+    public async Task<List<Product>> GetAllProductAsync()
+    {
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync("Product");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<List<Product>>(responseString) ?? new List<Product>();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
 }
