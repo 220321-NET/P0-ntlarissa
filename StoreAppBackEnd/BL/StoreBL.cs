@@ -14,9 +14,9 @@ public class StoreBL : IStoreBL
     //     return _repo.createNewUser(userToCreate);
     // }
 
-    public async Task<User> getUserAsync(User userToGet)
+    public async Task<User> getUserAsync(string username)
     {
-        return await _repo.getUserAsync(userToGet);
+        return await _repo.getUserAsync(username);
     }
 
     // public StoreFront addStoreFront(StoreFront storeToAdd)

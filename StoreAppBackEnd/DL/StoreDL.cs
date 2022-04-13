@@ -116,56 +116,59 @@ public class StoreDL : IStoreDL
     //     return null!;
     // }
 
-    public async Task<User> getUserAsync(User userToGet)
+    public async Task<User> getUserAsync(string username)
     {
         return await Task.Factory.StartNew(() =>
                 {
-                    if (userToGet.IsAdmin)
-                    {//get manager information
-                        DataSet mangerSet = new DataSet();
+                    // if (userToGet.IsAdmin)
+                    // {//get manager information
+                    //     DataSet mangerSet = new DataSet();
 
-                        using SqlConnection connection = new SqlConnection(_connectionString);
-                        using SqlCommand cmd = new SqlCommand("SELECT * FROM Managers WHERE managerUserName = @username", connection);
-                        cmd.Parameters.AddWithValue("@username", userToGet.UserName);
+                    //     using SqlConnection connection = new SqlConnection(_connectionString);
+                    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Managers WHERE managerUserName = @username", connection);
+                    //     cmd.Parameters.AddWithValue("@username", userToGet.UserName);
 
-                        SqlDataAdapter mangerAdapter = new SqlDataAdapter(cmd);
+                    //     SqlDataAdapter mangerAdapter = new SqlDataAdapter(cmd);
 
-                        mangerAdapter.Fill(mangerSet, "ManagerTable");
+                    //     mangerAdapter.Fill(mangerSet, "ManagerTable");
 
-                        DataTable? mangerTable = mangerSet.Tables["ManagerTable"];
-                        if (mangerTable != null && mangerTable.Rows.Count > 0 && userToGet.Password == (string)mangerTable.Rows[0]["managerPassword"])
-                        {
-                            userToGet.ID = (int)mangerTable.Rows[0]["managerID"];
-                            userToGet.FirstName = (string)mangerTable.Rows[0]["managerFirstName"];
-                            userToGet.LastName = (string)mangerTable.Rows[0]["managerLastName"];
-                            userToGet.IDStore = (int)mangerTable.Rows[0]["storeID"];
-                    //userToGet.Status = 1;
-                            return userToGet;
-                        }
+                    //     DataTable? mangerTable = mangerSet.Tables["ManagerTable"];
+                    //     if (mangerTable != null && mangerTable.Rows.Count > 0 && userToGet.Password == (string)mangerTable.Rows[0]["managerPassword"])
+                    //     {
+                    //         userToGet.ID = (int)mangerTable.Rows[0]["managerID"];
+                    //         userToGet.FirstName = (string)mangerTable.Rows[0]["managerFirstName"];
+                    //         userToGet.LastName = (string)mangerTable.Rows[0]["managerLastName"];
+                    //         userToGet.IDStore = (int)mangerTable.Rows[0]["storeID"];
+                    // //userToGet.Status = 1;
+                    //         return userToGet;
+                    //     }
+                    // }
+                    // else
+                    // {// get customer information
+
+                    DataSet customerSet = new DataSet();
+                    User userToGet = new User();
+                    using SqlConnection connection = new SqlConnection(_connectionString);
+                    using SqlCommand cmd = new SqlCommand("SELECT * FROM Customers WHERE customerUserName = @username", connection);
+                    cmd.Parameters.AddWithValue("@username", username);
+
+                    SqlDataAdapter customerAdapter = new SqlDataAdapter(cmd);
+
+                    customerAdapter.Fill(customerSet, "CustomerTable");
+
+                    DataTable? customerTable = customerSet.Tables["CustomerTable"];
+                    if (customerTable != null && customerTable.Rows.Count > 0 )
+                    {
+                        userToGet.ID = (int)customerTable.Rows[0]["customerID"];
+                        userToGet.FirstName = (string)customerTable.Rows[0]["customerFirstName"];
+                        userToGet.LastName = (string)customerTable.Rows[0]["customerLastName"];
+                        userToGet.Password = (string)customerTable.Rows[0]["customerPassword"];
+                        userToGet.UserName = username;
+                        //userToGet.Status = 1;
+                        return userToGet;
                     }
-                    else
-                    {// get customer information
-                        DataSet customerSet = new DataSet();
 
-                        using SqlConnection connection = new SqlConnection(_connectionString);
-                        using SqlCommand cmd = new SqlCommand("SELECT * FROM Customers WHERE customerUserName = @username", connection);
-                        cmd.Parameters.AddWithValue("@username", userToGet.UserName);
-
-                        SqlDataAdapter customerAdapter = new SqlDataAdapter(cmd);
-
-                        customerAdapter.Fill(customerSet, "CustomerTable");
-
-                        DataTable? customerTable = customerSet.Tables["CustomerTable"];
-                        if (customerTable != null && customerTable.Rows.Count > 0 && userToGet.Password == (string)customerTable.Rows[0]["customerPassword"])
-                        {
-                            userToGet.ID = (int)customerTable.Rows[0]["customerID"];
-                            userToGet.FirstName = (string)customerTable.Rows[0]["customerFirstName"];
-                            userToGet.LastName = (string)customerTable.Rows[0]["customerLastName"];
-                    //userToGet.Status = 1;
-                            return userToGet;
-                        }
-
-                    }
+                    // }
                     return null!;
                 });
     }

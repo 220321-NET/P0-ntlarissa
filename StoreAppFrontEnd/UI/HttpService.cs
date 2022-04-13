@@ -5,26 +5,28 @@ using System.Text;
 namespace UI;
 public class HttpService
 {
-    private readonly string _apiBaseURL = "https://localhost:7223/api/";
+    private readonly string _apiBaseURL = "https://localhost:7265/api/";
     private HttpClient client = new HttpClient();
 
     public HttpService()
     {
         client.BaseAddress = new Uri(_apiBaseURL);
     }
-    
 
-    public async Task<User> GetUserAsync(User userToGet)
+
+    public async Task<User> GetUserAsync(string username)
     {
-        string serializedUser = JsonSerializer.Serialize(userToGet);
-        StringContent content = new StringContent(serializedUser, Encoding.UTF8, "application/json");
         try
         {
-            HttpResponseMessage response = await client.GetAsync(userToGet.UserName);
+            HttpResponseMessage response = await client.GetAsync($"User/{username}");
             response.EnsureSuccessStatusCode();
-            return await JsonSerializer.DeserializeAsync<User>(await response.Content.ReadAsStreamAsync()) ?? new User();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<User>(responseString) ?? new User();
+            else
+                return null!;
         }
-        catch(HttpRequestException)
+        catch (HttpRequestException)
         {
             throw;
         }

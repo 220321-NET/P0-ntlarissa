@@ -25,7 +25,7 @@ public interface IStoreDL
     /// get an existant user
     ///</summary>
     ///<param name="userToGet"> User object to be got</param>
-    Task<User> getUserAsync(User userToGet);
+    Task<User> getUserAsync(string username);
 
     // StoreFront addStoreFront(StoreFront storeToAdd);
 

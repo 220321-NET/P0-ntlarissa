@@ -120,12 +120,8 @@ public class CustomerMenu
 
         //connect to the database if the user exit return all the information to build user objet
 
-        User userToGet = new User();
-        userToGet.UserName = username;
-        userToGet.Password = password;
-        userToGet.IsAdmin = false;
-        User? gotUser = await _httpService.GetUserAsync(userToGet);
-        if (gotUser != null)
+        User? gotUser = await _httpService.GetUserAsync(username);
+        if (gotUser != null && gotUser.Password == password)
         {
             OutputMessage.SucessConnexion(gotUser.FirstName);
             Order order = new Order();

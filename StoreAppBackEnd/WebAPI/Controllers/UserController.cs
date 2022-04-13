@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[UserController]")]
+[Route("api/[Controller]")]
 public class UserController : ControllerBase
 {
     private readonly IStoreBL _bl;
@@ -18,10 +18,10 @@ public class UserController : ControllerBase
     }
 
     // GET api/<UserController>/
-    [HttpGet]
-    public async Task<ActionResult<User>> GetAsync([FromQuery] User userToGet)
+    [HttpGet("{username}")]
+    public async Task<ActionResult<User>> GetAsync(string username)
     {
-        User? gotUser = await _bl.getUserAsync(userToGet);
+        User? gotUser = await _bl.getUserAsync(username);
         if (gotUser != null)
         {
             return Ok(gotUser);
