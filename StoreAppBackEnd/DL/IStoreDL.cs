@@ -18,59 +18,59 @@ public interface IStoreDL
     /// adds a new user
     ///</summary>
     ///<param name="userToCreate"> User object to be inserted or added</param>
-    User createNewUser(User userToCreate);
+    //User createNewUser(User userToCreate);
 
 
     /// <summary>
     /// get an existant user
     ///</summary>
     ///<param name="userToGet"> User object to be got</param>
-    User getUser(User userToGet);
+    Task<User> getUserAsync(User userToGet);
 
-    StoreFront addStoreFront(StoreFront storeToAdd);
+    // StoreFront addStoreFront(StoreFront storeToAdd);
 
-    Product addProduct(Product productToAdd);
+    // Product addProduct(Product productToAdd);
 
-    List<Product> GetAllProductByStore(int store);
-    List<Product> GetAllProduct();
-    List<User> GetAllCustomer();
+    // List<Product> GetAllProductByStore(int store);
+    // List<Product> GetAllProduct();
+    // List<User> GetAllCustomer();
 
-    Product updateProduct(Product productToUpdate);
+    // Product updateProduct(Product productToUpdate);
 
-    List<Order> getHistoryOrder(int id);
+    // List<Order> getHistoryOrder(int id);
 
-    Order placeOrder(Order orderToPlace);
+    // Order placeOrder(Order orderToPlace);
 
-    // /// <summary>
-    // /// adds a new manager
-    // ///</summary>
-    // ///<param name="managerToCreate"> Manager object to be inserted</param>
-    // User createNewManager(User managerToCreate);
+    // // /// <summary>
+    // // /// adds a new manager
+    // // ///</summary>
+    // // ///<param name="managerToCreate"> Manager object to be inserted</param>
+    // // User createNewManager(User managerToCreate);
 
-    // /// <summary>
-    // /// adds a new product
-    // ///</summary>
-    // ///<param name="productToCreate"> Product object to be inserted</param>
-    // Product createNewProduct(Product productToCreate);
+    // // /// <summary>
+    // // /// adds a new product
+    // // ///</summary>
+    // // ///<param name="productToCreate"> Product object to be inserted</param>
+    // // Product createNewProduct(Product productToCreate);
 
-    // /// <summary>
-    // /// places a new order
-    // ///</summary>
-    // ///<param name="orderToPlace"> Order object to be inserted.</param>
-    // void placeNewOrder(Order orderToPlace);
+    // // /// <summary>
+    // // /// places a new order
+    // // ///</summary>
+    // // ///<param name="orderToPlace"> Order object to be inserted.</param>
+    // // void placeNewOrder(Order orderToPlace);
 
-    // /// <summary>
-    // /// adds product to an order
-    // ///</summary>
-    // ///<param name="orderToUpdate"> Order object to be updated.</param>
-    // ///<param name="productToAdd"> Product object to be added to order.</param>
-    // void addProductToOrder(Order orderToUpdate, Product productToAdd );
+    // // /// <summary>
+    // // /// adds product to an order
+    // // ///</summary>
+    // // ///<param name="orderToUpdate"> Order object to be updated.</param>
+    // // ///<param name="productToAdd"> Product object to be added to order.</param>
+    // // void addProductToOrder(Order orderToUpdate, Product productToAdd );
 
-    // /// <summary>
-    // /// Retrieves all orders
-    // /// </summary>
-    // /// <returns>List of orders, if empty, returns an empty list</returns>
-    // List<Order> GetAll();
+    // // /// <summary>
+    // // /// Retrieves all orders
+    // // /// </summary>
+    // // /// <returns>List of orders, if empty, returns an empty list</returns>
+    // // List<Order> GetAll();
 
 
 

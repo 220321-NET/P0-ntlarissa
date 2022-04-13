@@ -9,51 +9,51 @@ public class StoreBL : IStoreBL
     {
         _repo = repo;
     }
-    public User createNewUser(User userToCreate)
+    // public User createNewUser(User userToCreate)
+    // {
+    //     return _repo.createNewUser(userToCreate);
+    // }
+
+    public async Task<User> getUserAsync(User userToGet)
     {
-        return _repo.createNewUser(userToCreate);
+        return await _repo.getUserAsync(userToGet);
     }
 
-    public User getUser(User userToGet)
-    {
-        return _repo.getUser(userToGet);
-    }
+    // public StoreFront addStoreFront(StoreFront storeToAdd)
+    // {
+    //     return _repo.addStoreFront(storeToAdd);
+    // }
+    // public Product addProduct(Product productToAdd)
+    // {
+    //     return _repo.addProduct(productToAdd);
+    // }
 
-    public StoreFront addStoreFront(StoreFront storeToAdd)
-    {
-        return _repo.addStoreFront(storeToAdd);
-    }
-    public Product addProduct(Product productToAdd)
-    {
-        return _repo.addProduct(productToAdd);
-    }
+    // public List<Product> GetAllProductByStore(int store)
+    // {
+    //     return _repo.GetAllProductByStore(store);
+    // }
 
-    public List<Product> GetAllProductByStore(int store)
-    {
-        return _repo.GetAllProductByStore(store);
-    }
+    // public List<Product> GetAllProduct()
+    // {
+    //     return _repo.GetAllProduct();
+    // }
+    // public Product updateProduct(Product productToUpdate)
+    // {
+    //     return _repo.updateProduct(productToUpdate);
+    // }
 
-    public List<Product> GetAllProduct()
-    {
-        return _repo.GetAllProduct();
-    }
-    public Product updateProduct(Product productToUpdate)
-    {
-        return _repo.updateProduct(productToUpdate);
-    }
+    // public Order placeOrder(Order orderToPlace)
+    // {
+    //     return _repo.placeOrder(orderToPlace);
+    // }
 
-    public Order placeOrder(Order orderToPlace)
-    {
-        return _repo.placeOrder(orderToPlace);
-    }
-
-    public List<Order> getHistoryOrder(int id)
-    {
-        return _repo.getHistoryOrder(id);
-    }
-    public List<User> GetAllCustomer(){
-        return _repo.GetAllCustomer();
-    }
+    // public List<Order> getHistoryOrder(int id)
+    // {
+    //     return _repo.getHistoryOrder(id);
+    // }
+    // public List<User> GetAllCustomer(){
+    //     return _repo.GetAllCustomer();
+    // }
 
 
 }
