@@ -16,13 +16,13 @@ public class Order
 
      public override string ToString()
     {
-        string qString = $"Ref Order: {OrderRef} \nID Customer: {CustomerID} \nDate : {OrderDate.ToString()} ";
+        string qString = $"Ref Order: {OrderRef}  || ID Customer: {CustomerID} || Date : {OrderDate.ToString()} ";
        if(Products.Count > 0)
         {
             qString += "\n Products: \n";
             foreach(Product prods in Products)
             {
-                qString += prods.ToString() + "\n================================\n";
+                qString += "    " + prods.ToString() + "\n                  *********************************************\n";
             }
         }
         qString += $"Total Order: {OrderTotal} ";

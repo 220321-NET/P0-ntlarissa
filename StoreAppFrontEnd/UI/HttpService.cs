@@ -68,4 +68,42 @@ public class HttpService
             throw;
         }
     }
+
+    public async Task<Order> placeOrder(Order orderToPlace)
+    {
+        string serializedOrder = JsonSerializer.Serialize(orderToPlace);
+        StringContent content = new StringContent(serializedOrder, Encoding.UTF8, "application/json");
+        try
+        {
+            HttpResponseMessage response = await client.PostAsync("Order", content);
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<Order>(responseString) ?? new Order();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+
+    public async Task<List<Order>> getHistoryOrderAsync(int id)
+    {
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync($"Order/{id}");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<List<Order>>(responseString) ?? new List<Order>();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
 }

@@ -13,9 +13,9 @@ public interface IStoreBL
          Task<List<Product>> GetAllProductAsync();
 
     // Product updateProduct(Product productToUpdate);
-    // Order placeOrder(Order orderToPlace);
+     Order placeOrder(Order orderToPlace);
 
-    // List<Order> getHistoryOrder(int id);
+    Task<List<Order>> getHistoryOrder(int id);
 
     // List<User> GetAllCustomer();
 }

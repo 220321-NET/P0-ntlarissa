@@ -1,148 +1,148 @@
-// using System.ComponentModel.DataAnnotations;
-// using Models;
+using System.ComponentModel.DataAnnotations;
+using Models;
 
-// namespace UI;
+namespace UI;
 
-// public class ManagerMenu
-// {
-//     private readonly HttpService _httpService;
+public class ManagerMenu
+{
+    private readonly HttpService _httpService;
 
-//     //Dependency injection
-//     public ManagerMenu(HttpService httpService)
-//     {
-//         _httpService = httpService;
-//     }
+    //Dependency injection
+    public ManagerMenu(HttpService httpService)
+    {
+        _httpService = httpService;
+    }
 
-//     public void Start()
-//     {
-//         HomePageManager();
-
-
-//     }
+    public async Task Start()
+    {
+        await HomePageManager();
 
 
-//     //home page customer
-//     private void HomePageManager()
-//     {
-//         bool exit = false;
-//         do
-//         {
+    }
 
-//             Console.WriteLine("What would you like to do today?");
-//             Console.WriteLine("[1] Log IN");
-//             Console.WriteLine("[x] Exit");
-//             string input = InputValidation.validString();
 
-//             switch (input.ToLower())
-//             {
-//                 case "1":
-//                     //Login to an app
-//                     LogToUser();
-//                     break;
+    //home page customer
+    private async Task HomePageManager()
+    {
+        bool exit = false;
+        do
+        {
 
-//                 case "x":
-//                     exit = true;
-//                     break;
+            Console.WriteLine("What would you like to do today?");
+            Console.WriteLine("[1] Log IN");
+            Console.WriteLine("[x] Exit");
+            string input = InputValidation.validString();
 
-//                 default:
-//                     Console.WriteLine("Invalid input, try again");
-//                     break;
-//             }
+            switch (input.ToLower())
+            {
+                case "1":
+                    //Login to an app
+                    await LogToUser();
+                    break;
 
-//         } while (!exit);
-//     }
+                case "x":
+                    exit = true;
+                    break;
 
-//     // log to an account user or customer
-//     private void LogToUser()
-//     {
+                default:
+                    Console.WriteLine("Invalid input, try again");
+                    break;
+            }
 
-//         Console.WriteLine("Logging  Manager");
+        } while (!exit);
+    }
 
-//         Console.WriteLine("Enter Your UserName: ");
-//         string username = InputValidation.validString();
-//         Console.WriteLine("Enter Your Password: ");
-//         string? password = InputValidation.validString();
+    // log to an account user or customer
+    private async Task LogToUser()
+    {
 
-//         //connect to the database if the user exit return all the information to build user objet
+        Console.WriteLine("Logging  Manager");
 
-//         User userToGet = new User();
-//         userToGet.UserName = username;
-//         userToGet.Password = password;
-//         userToGet.IsAdmin = true;
-//         User? gotUser = _bl.getUser(userToGet);
-//         if (gotUser != null)
-//         {
-//             OutputMessage.SucessConnexion(gotUser.FirstName);
-//             PortalManager(gotUser);
+        Console.WriteLine("Enter Your UserName: ");
+        string username = InputValidation.validString();
+        Console.WriteLine("Enter Your Password: ");
+        string? password = InputValidation.validString();
 
-//         }
-//         else
-//         {
-//             OutputMessage.ErrorConnexion();
-//         }
-//     }
+        //connect to the database if the user exit return all the information to build user objet
 
-//     private void PortalManager(User manager)
-//     {
-//         bool exit = false;
-//         do
-//         {
+        User userToGet = new User();
+        userToGet.UserName = username;
+        userToGet.Password = password;
+        userToGet.IsAdmin = true;
+        User? gotUser = _bl.getUserAdminAsync(userToGet);
+        if (gotUser != null)
+        {
+            OutputMessage.SucessConnexion(gotUser.FirstName);
+            await PortalManager(gotUser);
 
-//             Console.WriteLine("What would you like to do today?");
-//             Console.WriteLine("[1] Add a new manager!");
-//             Console.WriteLine("[2] Add products!");
-//             Console.WriteLine("[3] View  order history by location!");
-//             Console.WriteLine("[4] View order history by customer!");
-//             Console.WriteLine("[5] View inventory!");
-//             Console.WriteLine("[6] Replenish inventory!");
-//             Console.WriteLine("[7] Add storeFront!");
-//             Console.WriteLine("[x] Exit");
-//             string input = InputValidation.validString();
+        }
+        else
+        {
+            OutputMessage.ErrorConnexion();
+        }
+    }
 
-//             switch (input.ToLower())
-//             {
-//                 case "1":
-//                     //Add a new manager!
-//                     CreateNewUser(manager);
-//                     break;
+    private async Task PortalManager(User manager)
+    {
+        bool exit = false;
+        do
+        {
 
-//                 case "2":
-//                     //Add products!
-//                     AddProduct(manager);
-//                     break;
-//                 case "3":
-//                     //View  order history by location!
-//                     ViewHistoryByCustomer(manager);
-//                     break;
+            Console.WriteLine("What would you like to do today?");
+            Console.WriteLine("[1] Add a new manager!");
+            Console.WriteLine("[2] Add products!");
+            Console.WriteLine("[3] View  order history by location!");
+            Console.WriteLine("[4] View order history by customer!");
+            Console.WriteLine("[5] View inventory!");
+            Console.WriteLine("[6] Replenish inventory!");
+            Console.WriteLine("[7] Add storeFront!");
+            Console.WriteLine("[x] Exit");
+            string input = InputValidation.validString();
 
-//                 case "4":
-//                     //View order history by customer!
-//                     ViewHistoryByCustomer(manager);
-//                     break;
-//                 case "5":
-//                     //View inventory!
-//                     ViewInventory(manager);
-//                     break;
-//                 case "6":
-//                     //Replenish inventory!
-//                     ReplenishInventory(manager);
-//                     break;
-//                 case "7":
-//                     //Add storeFront!
-//                     AddStoreFront(manager);
-//                     break;
+            switch (input.ToLower())
+            {
+                case "1":
+                    //Add a new manager!
+                    //awit CreateNewUser(manager);
+                    break;
 
-//                 case "x":
-//                     exit = true;
-//                     break;
+                case "2":
+                    //Add products!
+                    //AddProduct(manager);
+                    break;
+                case "3":
+                    //View  order history by location!
+                    //ViewHistoryByCustomer(manager);
+                    break;
 
-//                 default:
-//                     Console.WriteLine("Invalid input, try again");
-//                     break;
-//             }
+                case "4":
+                    //View order history by customer!
+                    //ViewHistoryByCustomer(manager);
+                    break;
+                case "5":
+                    //View inventory!
+                    //ViewInventory(manager);
+                    break;
+                case "6":
+                    //Replenish inventory!
+                    //ReplenishInventory(manager);
+                    break;
+                case "7":
+                    //Add storeFront!
+                    //AddStoreFront(manager);
+                    break;
 
-//         } while (!exit);
-//     }
+                case "x":
+                    exit = true;
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid input, try again");
+                    break;
+            }
+
+        } while (!exit);
+    }
 
 //     // create user or customer
 //     private void CreateNewUser(User manager)
@@ -401,4 +401,4 @@
 //             System.Console.WriteLine("There are not customer.");
 //         }
 //     }
-// }
+ }

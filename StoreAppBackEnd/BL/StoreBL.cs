@@ -44,15 +44,15 @@ public class StoreBL : IStoreBL
     //     return _repo.updateProduct(productToUpdate);
     // }
 
-    // public Order placeOrder(Order orderToPlace)
-    // {
-    //     return _repo.placeOrder(orderToPlace);
-    // }
+    public Order placeOrder(Order orderToPlace)
+    {
+        return _repo.placeOrder(orderToPlace);
+    }
 
-    // public List<Order> getHistoryOrder(int id)
-    // {
-    //     return _repo.getHistoryOrder(id);
-    // }
+    public async Task<List<Order>> getHistoryOrder(int id)
+    {
+        return await _repo.getHistoryOrder(id);
+    }
     // public List<User> GetAllCustomer(){
     //     return _repo.GetAllCustomer();
     // }

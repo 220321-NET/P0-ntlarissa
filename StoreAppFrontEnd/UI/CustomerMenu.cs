@@ -56,7 +56,7 @@ public class CustomerMenu
 
         } while (!exit);
     }
-    private async void PortalCustomer(User customer, Order orderCustomer)
+    private async Task PortalCustomer(User customer, Order orderCustomer)
     {
         bool exit = false;
         do
@@ -80,20 +80,20 @@ public class CustomerMenu
 
                 case "2":
                     //Remove products to an order!
-                    //RemoveProductToOrder(customer, orderCustomer);
+                    await RemoveProductToOrder(customer, orderCustomer);
                     break;
                 case "3":
                     //View details of an order!
-                    //ViewDetailsOrder(customer, orderCustomer);
+                    await ViewDetailsOrder(customer, orderCustomer);
                     break;
 
                 case "4":
                     //place an order!
-                    //PlaceOrder(customer, orderCustomer);
+                    await PlaceOrder(customer, orderCustomer);
                     break;
                 case "5":
                     //View order history!
-                    //ViewHistory(customer, orderCustomer);
+                    await ViewHistory(customer, orderCustomer);
                     break;
 
                 case "x":
@@ -128,7 +128,7 @@ public class CustomerMenu
             order.OrderRef = Guid.NewGuid().ToString("N");
             order.CustomerID = gotUser.ID;
             order.OrderDate = DateTime.Now;
-            PortalCustomer(gotUser, order);
+            await PortalCustomer(gotUser, order);
 
         }
         else
@@ -221,7 +221,7 @@ public class CustomerMenu
             if (allProductsDisplay.Count < 1)
             {
                 System.Console.WriteLine("\nYour cart contains all the products. Choose remove or update. \n");
-                PortalCustomer(customer, orderMaking);
+                await PortalCustomer(customer, orderMaking);
             }
             else
             {
@@ -243,7 +243,7 @@ public class CustomerMenu
                             productToAdd.ProductQuantity = quantity;
                             orderMaking.Products.Add(productToAdd);
                             orderMaking.OrderTotal += productToAdd.ProductQuantity * productToAdd.ProductPrice;
-                            PortalCustomer(customer, orderMaking);
+                            await PortalCustomer(customer, orderMaking);
                         }
                         else
                         {
@@ -270,9 +270,9 @@ public class CustomerMenu
 
     }
 
-    private void RemoveProductToOrder(User customer, Order orderMaking)
+    private async Task RemoveProductToOrder(User customer, Order orderMaking)
     {
-        if (orderMaking.Products != null)
+        if (orderMaking.Products != null && orderMaking.Products.Count > 0)
         {
 
             Console.WriteLine("Here are all the products in your cart\n");
@@ -293,7 +293,7 @@ public class CustomerMenu
 
                     orderMaking.Products.Remove(productToRemove);
                     orderMaking.OrderTotal -= productToRemove.ProductQuantity * productToRemove.ProductPrice;
-                    PortalCustomer(customer, orderMaking);
+                    await PortalCustomer(customer, orderMaking);
                 }
                 else
                 {
@@ -314,45 +314,45 @@ public class CustomerMenu
 
     }
 
-    // private void ViewDetailsOrder(User customer, Order orderMaking)
-    // {
-    //     System.Console.WriteLine(orderMaking);
-    //     System.Console.WriteLine("==============================================================================\n");
-    //     PortalCustomer(customer, orderMaking);
-    // }
+    private async Task ViewDetailsOrder(User customer, Order orderMaking)
+    {
+        System.Console.WriteLine(orderMaking);
+        System.Console.WriteLine("==============================================================================\n");
+        await PortalCustomer(customer, orderMaking);
+    }
 
-    // private void PlaceOrder(User customer, Order orderMaking)
-    // {
-    //     Order? placedOrder = _bl.placeOrder(orderMaking);
-    //     if (placedOrder != null)
-    //     {
-    //         Order order = new Order();
-    //         order.OrderRef = Guid.NewGuid().ToString("N");
-    //         OutputMessage.SuccessPlaceOrder();
-    //         PortalCustomer(customer, order);
-    //     }
-    //     else
-    //     {
-    //         OutputMessage.ErrorOperation();
-    //     }
-    // }
-    // private void ViewHistory(User customer, Order orderCustomer)
-    // {
-    //     List<Order>? gethistory = _bl.getHistoryOrder(customer.ID);
-    //     if (gethistory != null)
-    //     {
-    //         Console.WriteLine("Here are all  your history\n");
-    //         foreach (Order orderDisplay in gethistory)
-    //         {//Display  the products  exist in order making
-    //             Console.WriteLine(orderDisplay);
-    //             System.Console.WriteLine("=================================================================");
+    private async Task PlaceOrder(User customer, Order orderMaking)
+    {
+        Order? placedOrder = await _httpService.placeOrder(orderMaking);
+        if (placedOrder != null)
+        {
+            Order order = new Order();
+            order.OrderRef = Guid.NewGuid().ToString("N");
+            OutputMessage.SuccessPlaceOrder();
+            await PortalCustomer(customer, order);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
+    }
+    private async Task ViewHistory(User customer, Order orderCustomer)
+    {
+        List<Order>? gethistory = await _httpService.getHistoryOrderAsync(customer.ID);
+        if (gethistory != null)
+        {
+            Console.WriteLine("Here are all  your history\n");
+            foreach (Order orderDisplay in gethistory)
+            {//Display  the products  exist in order making
+                Console.WriteLine(orderDisplay);
+                System.Console.WriteLine("          ===========================================================================");
 
-    //         }
-    //         PortalCustomer(customer, orderCustomer);
-    //     }
-    //     else
-    //     {
-    //         OutputMessage.ErrorOperation();
-    //     }
-    // }
+            }
+            await PortalCustomer(customer, orderCustomer);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
+    }
 }

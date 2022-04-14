@@ -409,174 +409,177 @@ public class StoreDL : IStoreDL
     }
 
 
-    // public Order placeOrder(Order orderToPlace)
-    // {
+    public Order placeOrder(Order orderToPlace)
+    {
 
-    //     //add order
-    //     DataSet orderSet = new DataSet();
+        //add order
+        DataSet orderSet = new DataSet();
 
-    //     using SqlConnection connection = new SqlConnection(_connectionString);
-    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Orders WHERE orderID = -1", connection);
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Orders WHERE orderID = -1", connection);
 
-    //     SqlDataAdapter orderAdapter = new SqlDataAdapter(cmd);
+        SqlDataAdapter orderAdapter = new SqlDataAdapter(cmd);
 
-    //     orderAdapter.Fill(orderSet, "OrderTable");
+        orderAdapter.Fill(orderSet, "OrderTable");
 
-    //     DataTable? orderTable = orderSet.Tables["OrderTable"];
-    //     if (orderTable != null)
-    //     {
-    //         foreach (Product prods in orderToPlace.Products)
-    //         {
-    //             DataRow newRow = orderTable.NewRow();
-    //             newRow["quantity"] = prods.ProductQuantity;
-    //             newRow["price"] = prods.ProductPrice;
-    //             newRow["orderDate"] = orderToPlace.OrderDate;
-    //             newRow["orderRef"] = orderToPlace.OrderRef;
-    //             newRow["total"] = orderToPlace.OrderTotal;
-    //             newRow["productID"] = prods.IDProduct;
-    //             newRow["productName"] = prods.NameProduct;
-    //             newRow["productRef"] = prods.ProductRef;
-    //             newRow["customerID"] = orderToPlace.CustomerID;
-    //             orderTable.Rows.Add(newRow);
-    //             if (!updateProductQty(prods.IDProduct, prods.ProductQuantity))
-    //             {
-    //                 return null!;
-    //             }
-    //         }
+        DataTable? orderTable = orderSet.Tables["OrderTable"];
+        if (orderTable != null)
+        {
+            foreach (Product prods in orderToPlace.Products)
+            {
+                DataRow newRow = orderTable.NewRow();
+                newRow["quantity"] = prods.ProductQuantity;
+                newRow["price"] = prods.ProductPrice;
+                newRow["orderDate"] = orderToPlace.OrderDate;
+                newRow["orderRef"] = orderToPlace.OrderRef;
+                newRow["total"] = orderToPlace.OrderTotal;
+                newRow["productID"] = prods.IDProduct;
+                newRow["productName"] = prods.NameProduct;
+                newRow["productRef"] = prods.ProductRef;
+                newRow["customerID"] = orderToPlace.CustomerID;
+                orderTable.Rows.Add(newRow);
+                if (!updateProductQty(prods.IDProduct, prods.ProductQuantity))
+                {
+                    return null!;
+                }
+            }
 
-    //         SqlCommandBuilder commandBuilder = new SqlCommandBuilder(orderAdapter);
-    //         SqlCommand insert = commandBuilder.GetInsertCommand();
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(orderAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
 
-    //         orderAdapter.InsertCommand = insert;
+            orderAdapter.InsertCommand = insert;
 
-    //         try
-    //         {
-    //             orderAdapter.Update(orderTable);
-    //             return orderToPlace;
-    //         }
-    //         catch (Exception)
-    //         {
-    //             return null!;
-    //         }
-    //     }
-    //     return null!;
-    // }
+            try
+            {
+                orderAdapter.Update(orderTable);
+                return orderToPlace;
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+        return null!;
+    }
 
-    // private bool updateProductQty(int id, float qty)
-    // {
-    //     float newQty = getProductQty(id) - qty;
-    //     if (newQty < 0)
-    //     {
-    //         return false;
-    //     }
-    //     DataSet productSet = new DataSet();
+    private bool updateProductQty(int id, float qty)
+    {
+        float newQty = getProductQty(id) - qty;
+        if (newQty < 0)
+        {
+            return false;
+        }
+        DataSet productSet = new DataSet();
 
-    //     using SqlConnection connection = new SqlConnection(_connectionString);
-    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Products WHERE productID = @id", connection);
-    //     cmd.Parameters.AddWithValue("@id", id);
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Products WHERE productID = @id", connection);
+        cmd.Parameters.AddWithValue("@id", id);
 
-    //     SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+        SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
 
-    //     productAdapter.Fill(productSet, "ProductTable");
+        productAdapter.Fill(productSet, "ProductTable");
 
-    //     DataTable? productTable = productSet.Tables["ProductTable"];
-    //     if (productTable != null && productTable.Rows.Count > 0)
-    //     {
-    //         DataColumn[] dt = new DataColumn[1];
-    //         dt[0] = productTable.Columns["productID"]!;
-    //         productTable.PrimaryKey = dt;
-    //         DataRow? rowToUpdate = productTable.Rows.Find(id);
-    //         if (rowToUpdate != null)
-    //         {
-    //             rowToUpdate["productQuantity"] = newQty;
-    //         }
+        DataTable? productTable = productSet.Tables["ProductTable"];
+        if (productTable != null && productTable.Rows.Count > 0)
+        {
+            DataColumn[] dt = new DataColumn[1];
+            dt[0] = productTable.Columns["productID"]!;
+            productTable.PrimaryKey = dt;
+            DataRow? rowToUpdate = productTable.Rows.Find(id);
+            if (rowToUpdate != null)
+            {
+                rowToUpdate["productQuantity"] = newQty;
+            }
 
-    //         SqlCommandBuilder commandBuilder = new SqlCommandBuilder(productAdapter);
-    //         SqlCommand updateCmd = commandBuilder.GetUpdateCommand();
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(productAdapter);
+            SqlCommand updateCmd = commandBuilder.GetUpdateCommand();
 
-    //         productAdapter.UpdateCommand = updateCmd;
-    //         productAdapter.Update(productTable);
-    //         return true;
-    //     }
-    //     return false;
-    // }
+            productAdapter.UpdateCommand = updateCmd;
+            productAdapter.Update(productTable);
+            return true;
+        }
+        return false;
+    }
 
-    // private float getProductQty(int id)
-    // {
-    //     float qty = 0;
-    //     DataSet productSet = new DataSet();
+    private float getProductQty(int id)
+    {
+        float qty = 0;
+        DataSet productSet = new DataSet();
 
-    //     using SqlConnection connection = new SqlConnection(_connectionString);
-    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Products WHERE productID = @id", connection);
-    //     cmd.Parameters.AddWithValue("@id", id);
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Products WHERE productID = @id", connection);
+        cmd.Parameters.AddWithValue("@id", id);
 
-    //     SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+        SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
 
-    //     productAdapter.Fill(productSet, "ProductTable");
+        productAdapter.Fill(productSet, "ProductTable");
 
-    //     DataTable? productTable = productSet.Tables["ProductTable"];
-    //     if (productTable != null && productTable.Rows.Count > 0)
-    //     {
-    //         qty = Convert.ToSingle(productTable.Rows[0]["productQuantity"]);
-    //         return qty;
-    //     }
-    //     return qty;
-    // }
-    // public List<Order> getHistoryOrder(int id)
-    // {
-    //     List<Order> gethistory = new List<Order>();
-    //     DataSet orderSet = new DataSet();
+        DataTable? productTable = productSet.Tables["ProductTable"];
+        if (productTable != null && productTable.Rows.Count > 0)
+        {
+            qty = Convert.ToSingle(productTable.Rows[0]["productQuantity"]);
+            return qty;
+        }
+        return qty;
+    }
+    public async Task<List<Order>> getHistoryOrder(int id)
+    {
+        return await Task.Factory.StartNew(() =>
+                {
+                    List<Order> gethistory = new List<Order>();
+                    DataSet orderSet = new DataSet();
 
-    //     using SqlConnection connection = new SqlConnection(_connectionString);
-    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Orders WHERE customerID = @id ORDER BY orderRef", connection);
-    //     cmd.Parameters.AddWithValue("@id", id);
+                    using SqlConnection connection = new SqlConnection(_connectionString);
+                    using SqlCommand cmd = new SqlCommand("SELECT * FROM Orders WHERE customerID = @id ORDER BY orderRef", connection);
+                    cmd.Parameters.AddWithValue("@id", id);
 
-    //     SqlDataAdapter orderAdapter = new SqlDataAdapter(cmd);
+                    SqlDataAdapter orderAdapter = new SqlDataAdapter(cmd);
 
-    //     orderAdapter.Fill(orderSet, "OrderTable");
+                    orderAdapter.Fill(orderSet, "OrderTable");
 
-    //     DataTable? orderTable = orderSet.Tables["OrderTable"];
-    //     if (orderTable != null && orderTable.Rows.Count > 0)
-    //     {
-    //         string orderref;
-    //         int position;
-    //         for (int i = 0; i < orderTable.Rows.Count; i++)
-    //         {
+                    DataTable? orderTable = orderSet.Tables["OrderTable"];
+                    if (orderTable != null && orderTable.Rows.Count > 0)
+                    {
+                        string orderref;
+                        int position;
+                        for (int i = 0; i < orderTable.Rows.Count; i++)
+                        {
 
-    //             orderref = (string)orderTable.Rows[i]["orderRef"];
-    //             position = gethistory.FindIndex(x => x.OrderRef == orderref);
-    //             if (position == -1) //ref order doest not exist in the list 
-    //             {
-    //                 Order order = new Order();
-    //                 Product product = new Product();
-    //                 order.CustomerID = id;
-    //                 order.OrderDate = (DateTime)orderTable.Rows[i]["orderDate"];
-    //                 order.OrderRef = (string)orderTable.Rows[i]["orderRef"];
-    //                 product.ProductQuantity = Convert.ToSingle(orderTable.Rows[i]["quantity"]);
-    //                 product.ProductPrice = Convert.ToSingle(orderTable.Rows[i]["price"]);
-    //                 order.OrderTotal = Convert.ToSingle(orderTable.Rows[i]["total"]);
-    //                 product.IDProduct = (int)orderTable.Rows[i]["productID"];
-    //                 product.NameProduct = (string)orderTable.Rows[i]["productName"];
-    //                 product.ProductRef = (string)orderTable.Rows[i]["productRef"];
-    //                 order.Products.Add(product);
-    //                 gethistory.Add(order);
-    //             }
-    //             else
-    //             {
-    //                 Product product = new Product();
-    //                 product.ProductQuantity = Convert.ToSingle(orderTable.Rows[i]["quantity"]);
-    //                 product.ProductPrice = Convert.ToSingle(orderTable.Rows[i]["price"]);
-    //                 product.IDProduct = (int)orderTable.Rows[i]["productID"];
-    //                 product.NameProduct = (string)orderTable.Rows[i]["productName"];
-    //                 product.ProductRef = (string)orderTable.Rows[i]["productRef"];
-    //                 gethistory[position].Products.Add(product);
-    //             }
+                            orderref = (string)orderTable.Rows[i]["orderRef"];
+                            position = gethistory.FindIndex(x => x.OrderRef == orderref);
+                            if (position == -1) //ref order doest not exist in the list 
+                            {
+                                Order order = new Order();
+                                Product product = new Product();
+                                order.CustomerID = id;
+                                order.OrderDate = (DateTime)orderTable.Rows[i]["orderDate"];
+                                order.OrderRef = (string)orderTable.Rows[i]["orderRef"];
+                                product.ProductQuantity = Convert.ToSingle(orderTable.Rows[i]["quantity"]);
+                                product.ProductPrice = Convert.ToSingle(orderTable.Rows[i]["price"]);
+                                order.OrderTotal = Convert.ToSingle(orderTable.Rows[i]["total"]);
+                                product.IDProduct = (int)orderTable.Rows[i]["productID"];
+                                product.NameProduct = (string)orderTable.Rows[i]["productName"];
+                                product.ProductRef = (string)orderTable.Rows[i]["productRef"];
+                                order.Products.Add(product);
+                                gethistory.Add(order);
+                            }
+                            else
+                            {
+                                Product product = new Product();
+                                product.ProductQuantity = Convert.ToSingle(orderTable.Rows[i]["quantity"]);
+                                product.ProductPrice = Convert.ToSingle(orderTable.Rows[i]["price"]);
+                                product.IDProduct = (int)orderTable.Rows[i]["productID"];
+                                product.NameProduct = (string)orderTable.Rows[i]["productName"];
+                                product.ProductRef = (string)orderTable.Rows[i]["productRef"];
+                                gethistory[position].Products.Add(product);
+                            }
 
-    //         }
-    //         return gethistory;
-    //     }
-    //     return null!;
-    // }
+                        }
+                        return gethistory;
+                    }
+                    return null!;
+                });
+    }
 
     // public List<User> GetAllCustomer()
     // {

@@ -41,7 +41,7 @@ public class MainMenu
 
                 case "2":
                     //Manager view
-                    //new ManagerMenu(_httpService).Start();
+                    await new ManagerMenu(_httpService).Start();
                     break;
                 case "x":
                     Console.WriteLine("Goodbye!");

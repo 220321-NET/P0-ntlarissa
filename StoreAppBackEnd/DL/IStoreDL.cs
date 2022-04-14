@@ -38,9 +38,9 @@ public interface IStoreDL
 
     // Product updateProduct(Product productToUpdate);
 
-    // List<Order> getHistoryOrder(int id);
+    Task<List<Order>> getHistoryOrder(int id);
 
-    // Order placeOrder(Order orderToPlace);
+     Order placeOrder(Order orderToPlace);
 
     // // /// <summary>
     // // /// adds a new manager

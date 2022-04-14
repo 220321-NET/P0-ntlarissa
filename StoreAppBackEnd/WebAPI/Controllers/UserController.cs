@@ -29,7 +29,7 @@ public class UserController : ControllerBase
         return NoContent();
     }
 
-    // POST api/<IssuesController>
+    // POST api/<UserController>
     [HttpPost]
     public ActionResult<User> Post([FromBody] User userToCreate)
     {
