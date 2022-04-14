@@ -29,31 +29,31 @@ public class ProductController : ControllerBase
         return NoContent();
     }
 
-    // // POST api/<IssuesController>
-    // [HttpPost]
-    // public ActionResult<User> Post([FromBody] User userToCreate)
-    // {
-    //     User? createdUser = _bl.createNewUser(userToCreate);
-    //     if (createdUser != null)
-    //     {
+    // POST api/<ProductController>
+    [HttpPost]
+    public ActionResult<Product> Post([FromBody] Product productToAdd)
+    {
+        Product? addedProduct = _bl.addProduct(productToAdd);
+        if (addedProduct != null)
+        {
 
 
-    //         //check the cache, is there a cached all users?
-    //         //If so, update the cache
-    //         List<User> users = new List<User>();
-    //         if (_cache.TryGetValue<List<User>>("AllUsers", out users))
-    //         {
-    //             users.Add(createdUser);
-    //             _cache.Set("AllUsers", users, new TimeSpan(0, 1, 0));
-    //         }
+            //check the cache, is there a cached all users?
+            //If so, update the cache
+            List<Product> products = new List<Product>();
+            if (_cache.TryGetValue<List<Product>>("AllProducts", out products))
+            {
+                products.Add(addedProduct);
+                _cache.Set("AllProducts", products, new TimeSpan(0, 1, 0));
+            }
 
-    //         return Created("api/Users", createdUser);
-    //     }
+            return Created("api/Product", addedProduct);
+        }
 
-    //     else
-    //     {
-    //         return NoContent();
-    //     }
-    // }
+        else
+        {
+            return NoContent();
+        }
+    }
 
 }

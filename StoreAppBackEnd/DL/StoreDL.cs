@@ -71,122 +71,54 @@ public class StoreDL : IStoreDL
         return null!;
     }
 
-    // public User createNewUser(User userToCreate)
-    // {
-    //     if (userToCreate.IsAdmin)
-    //     {
-    //         //add manager 
-    //         DataSet managerSet = new DataSet();
+    public User createNewManager(User userToCreate)
+    {
+            //add manager 
+            DataSet managerSet = new DataSet();
 
-    //         using SqlConnection connection = new SqlConnection(_connectionString);
-    //         using SqlCommand cmd = new SqlCommand("SELECT * FROM Managers WHERE managerID = -1", connection);
+            using SqlConnection connection = new SqlConnection(_connectionString);
+            using SqlCommand cmd = new SqlCommand("SELECT * FROM Managers WHERE managerID = -1", connection);
 
-    //         SqlDataAdapter managerAdapter = new SqlDataAdapter(cmd);
+            SqlDataAdapter managerAdapter = new SqlDataAdapter(cmd);
 
-    //         managerAdapter.Fill(managerSet, "ManagerTable");
+            managerAdapter.Fill(managerSet, "ManagerTable");
 
-    //         DataTable? managerTable = managerSet.Tables["ManagerTable"];
-    //         if (managerTable != null)
-    //         {
-    //             DataRow newRow = managerTable.NewRow();
-    //             newRow["managerUserName"] = userToCreate.UserName;
-    //             newRow["managerFirstName"] = userToCreate.FirstName;
-    //             newRow["managerLastName"] = userToCreate.LastName;
-    //             newRow["managerPassword"] = userToCreate.Password;
-    //             newRow["storeID"] = userToCreate.IDStore;
-    //             System.Console.WriteLine(userToCreate.IDStore);
+            DataTable? managerTable = managerSet.Tables["ManagerTable"];
+            if (managerTable != null)
+            {
+                DataRow newRow = managerTable.NewRow();
+                newRow["managerUserName"] = userToCreate.UserName;
+                newRow["managerFirstName"] = userToCreate.FirstName;
+                newRow["managerLastName"] = userToCreate.LastName;
+                newRow["managerPassword"] = userToCreate.Password;
+                newRow["storeID"] = userToCreate.IDStore;
+                System.Console.WriteLine(userToCreate.IDStore);
 
-    //             managerTable.Rows.Add(newRow);
+                managerTable.Rows.Add(newRow);
 
-    //             SqlCommandBuilder commandBuilder = new SqlCommandBuilder(managerAdapter);
-    //             SqlCommand insert = commandBuilder.GetInsertCommand();
+                SqlCommandBuilder commandBuilder = new SqlCommandBuilder(managerAdapter);
+                SqlCommand insert = commandBuilder.GetInsertCommand();
 
-    //             managerAdapter.InsertCommand = insert;
+                managerAdapter.InsertCommand = insert;
 
-    //             try
-    //             {
-    //                 managerAdapter.Update(managerTable);
-    //                 return userToCreate;
-    //             }
-    //             catch (Exception ex)
-    //             {
-    //                 System.Console.WriteLine(ex);
-    //                 return null!;
-    //             }
-    //         }
-    //     }
-    //     else
-    //     {
-    //         //add customer
-    //         DataSet customerSet = new DataSet();
-
-    //         using SqlConnection connection = new SqlConnection(_connectionString);
-    //         using SqlCommand cmd = new SqlCommand("SELECT * FROM Customers WHERE customerID = -1", connection);
-
-    //         SqlDataAdapter customerAdapter = new SqlDataAdapter(cmd);
-
-    //         customerAdapter.Fill(customerSet, "CustomerTable");
-
-    //         DataTable? customerTable = customerSet.Tables["CustomerTable"];
-    //         if (customerTable != null)
-    //         {
-    //             DataRow newRow = customerTable.NewRow();
-    //             newRow["customerUserName"] = userToCreate.UserName;
-    //             newRow["customerFirstName"] = userToCreate.FirstName;
-    //             newRow["customerLastName"] = userToCreate.LastName;
-    //             newRow["customerPassword"] = userToCreate.Password;
-
-    //             customerTable.Rows.Add(newRow);
-
-    //             SqlCommandBuilder commandBuilder = new SqlCommandBuilder(customerAdapter);
-    //             SqlCommand insert = commandBuilder.GetInsertCommand();
-
-    //             customerAdapter.InsertCommand = insert;
-
-    //             try
-    //             {
-    //                 customerAdapter.Update(customerTable);
-    //                 return userToCreate;
-    //             }
-    //             catch (Exception)
-    //             {
-    //                 return null!;
-    //             }
-    //         }
-    //     }
-    //     return null!;
-    // }
+                try
+                {
+                    managerAdapter.Update(managerTable);
+                    return userToCreate;
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine(ex);
+                    return null!;
+                }
+            }
+        return null!;
+    }
 
     public async Task<User> getUserAsync(string username)
     {
         return await Task.Factory.StartNew(() =>
                 {
-                    // if (userToGet.IsAdmin)
-                    // {//get manager information
-                    //     DataSet mangerSet = new DataSet();
-
-                    //     using SqlConnection connection = new SqlConnection(_connectionString);
-                    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM Managers WHERE managerUserName = @username", connection);
-                    //     cmd.Parameters.AddWithValue("@username", userToGet.UserName);
-
-                    //     SqlDataAdapter mangerAdapter = new SqlDataAdapter(cmd);
-
-                    //     mangerAdapter.Fill(mangerSet, "ManagerTable");
-
-                    //     DataTable? mangerTable = mangerSet.Tables["ManagerTable"];
-                    //     if (mangerTable != null && mangerTable.Rows.Count > 0 && userToGet.Password == (string)mangerTable.Rows[0]["managerPassword"])
-                    //     {
-                    //         userToGet.ID = (int)mangerTable.Rows[0]["managerID"];
-                    //         userToGet.FirstName = (string)mangerTable.Rows[0]["managerFirstName"];
-                    //         userToGet.LastName = (string)mangerTable.Rows[0]["managerLastName"];
-                    //         userToGet.IDStore = (int)mangerTable.Rows[0]["storeID"];
-                    // //userToGet.Status = 1;
-                    //         return userToGet;
-                    //     }
-                    // }
-                    // else
-                    // {// get customer information
-
                     DataSet customerSet = new DataSet();
                     User userToGet = new User();
                     using SqlConnection connection = new SqlConnection(_connectionString);
@@ -209,53 +141,83 @@ public class StoreDL : IStoreDL
                         return userToGet;
                     }
 
-                    // }
                     return null!;
                 });
     }
-    // public StoreFront addStoreFront(StoreFront storeToAdd)
-    // {
-    //     //add store
-    //     DataSet storeSet = new DataSet();
 
-    //     using SqlConnection connection = new SqlConnection(_connectionString);
-    //     using SqlCommand cmd = new SqlCommand("SELECT * FROM StoreFront WHERE storeID = -1", connection);
+    public async Task<User> getManagerAsync(string username)
+    {
+        return await Task.Factory.StartNew(() =>
+                {
+                    DataSet mangerSet = new DataSet();
+                    User userToGet = new User();
 
-    //     SqlDataAdapter storeAdapter = new SqlDataAdapter(cmd);
+                    using SqlConnection connection = new SqlConnection(_connectionString);
+                    using SqlCommand cmd = new SqlCommand("SELECT * FROM Managers WHERE managerUserName = @username", connection);
+                    cmd.Parameters.AddWithValue("@username", username);
 
-    //     storeAdapter.Fill(storeSet, "StoreTable");
+                    SqlDataAdapter mangerAdapter = new SqlDataAdapter(cmd);
 
-    //     DataTable? storeTable = storeSet.Tables["StoreTable"];
-    //     if (storeTable != null)
-    //     {
-    //         DataRow newRow = storeTable.NewRow();
-    //         newRow["storeName"] = storeToAdd.Name;
-    //         newRow["addressLine1"] = storeToAdd.Line1;
-    //         newRow["addressLine2"] = storeToAdd.Line2;
-    //         newRow["addressCity"] = storeToAdd.City;
-    //         newRow["addressState"] = storeToAdd.State;
-    //         newRow["addressCountry"] = storeToAdd.Country;
-    //         newRow["addressZipCode"] = storeToAdd.ZipCode;
+                    mangerAdapter.Fill(mangerSet, "ManagerTable");
 
-    //         storeTable.Rows.Add(newRow);
+                    DataTable? mangerTable = mangerSet.Tables["ManagerTable"];
+                    if (mangerTable != null && mangerTable.Rows.Count > 0)
+                    {
+                        userToGet.ID = (int)mangerTable.Rows[0]["managerID"];
+                        userToGet.FirstName = (string)mangerTable.Rows[0]["managerFirstName"];
+                        userToGet.LastName = (string)mangerTable.Rows[0]["managerLastName"];
+                        userToGet.IDStore = (int)mangerTable.Rows[0]["storeID"];
+                        userToGet.Password = (string)mangerTable.Rows[0]["managerPassword"];
+                        userToGet.UserName = username;
+                        //userToGet.Status = 1;
+                        return userToGet;
+                    }
+                    return null!;
+                });
+    }
+    public StoreFront addStoreFront(StoreFront storeToAdd)
+    {
+        //add store
+        DataSet storeSet = new DataSet();
 
-    //         SqlCommandBuilder commandBuilder = new SqlCommandBuilder(storeAdapter);
-    //         SqlCommand insert = commandBuilder.GetInsertCommand();
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM StoreFront WHERE storeID = -1", connection);
 
-    //         storeAdapter.InsertCommand = insert;
+        SqlDataAdapter storeAdapter = new SqlDataAdapter(cmd);
 
-    //         try
-    //         {
-    //             storeAdapter.Update(storeTable);
-    //             return storeToAdd;
-    //         }
-    //         catch (Exception)
-    //         {
-    //             return null!;
-    //         }
-    //     }
-    //     return null!;
-    // }
+        storeAdapter.Fill(storeSet, "StoreTable");
+
+        DataTable? storeTable = storeSet.Tables["StoreTable"];
+        if (storeTable != null)
+        {
+            DataRow newRow = storeTable.NewRow();
+            newRow["storeName"] = storeToAdd.Name;
+            newRow["addressLine1"] = storeToAdd.Line1;
+            newRow["addressLine2"] = storeToAdd.Line2;
+            newRow["addressCity"] = storeToAdd.City;
+            newRow["addressState"] = storeToAdd.State;
+            newRow["addressCountry"] = storeToAdd.Country;
+            newRow["addressZipCode"] = storeToAdd.ZipCode;
+
+            storeTable.Rows.Add(newRow);
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(storeAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
+
+            storeAdapter.InsertCommand = insert;
+
+            try
+            {
+                storeAdapter.Update(storeTable);
+                return storeToAdd;
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+        return null!;
+    }
 
 
     public Product addProduct(Product productToAdd)

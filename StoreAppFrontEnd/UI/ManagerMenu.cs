@@ -69,7 +69,7 @@ public class ManagerMenu
         userToGet.UserName = username;
         userToGet.Password = password;
         userToGet.IsAdmin = true;
-        User? gotUser = _bl.getUserAdminAsync(userToGet);
+        User? gotUser = await _httpService.getManagerAsync(username);
         if (gotUser != null)
         {
             OutputMessage.SucessConnexion(gotUser.FirstName);
@@ -103,12 +103,12 @@ public class ManagerMenu
             {
                 case "1":
                     //Add a new manager!
-                    //awit CreateNewUser(manager);
+                    await CreateNewManager(manager);
                     break;
 
                 case "2":
                     //Add products!
-                    //AddProduct(manager);
+                    await AddProduct(manager);
                     break;
                 case "3":
                     //View  order history by location!
@@ -129,7 +129,7 @@ public class ManagerMenu
                     break;
                 case "7":
                     //Add storeFront!
-                    //AddStoreFront(manager);
+                    await AddStoreFront(manager);
                     break;
 
                 case "x":
@@ -144,56 +144,56 @@ public class ManagerMenu
         } while (!exit);
     }
 
-//     // create user or customer
-//     private void CreateNewUser(User manager)
-//     {
+    // create user or customer
+    private async Task CreateNewManager(User manager)
+    {
 
-//         Console.WriteLine("Creating New Manager");
+        Console.WriteLine("Creating New Manager");
 
-//         Console.WriteLine("Enter the store ID: ");
-//         int storeid = InputValidation.validIntPositif();
+        Console.WriteLine("Enter the store ID: ");
+        int storeid = InputValidation.validIntPositif();
 
-//         Console.WriteLine("Enter his/her Last Name: ");
-//         string lastname = InputValidation.validString();
+        Console.WriteLine("Enter his/her Last Name: ");
+        string lastname = InputValidation.validString();
 
-//         Console.WriteLine("Enter his/her First Name: ");
-//         string firstname = InputValidation.validString();
+        Console.WriteLine("Enter his/her First Name: ");
+        string firstname = InputValidation.validString();
 
-//         Console.WriteLine("Enter his/her UserName: ");
-//         string username = InputValidation.validString();
+        Console.WriteLine("Enter his/her UserName: ");
+        string username = InputValidation.validString();
 
-//         bool same = false;
-//         Console.WriteLine("Enter his/her Password: ");
-//         string password = InputValidation.validString();
-//         do
-//         {
+        bool same = false;
+        Console.WriteLine("Enter his/her Password: ");
+        string password = InputValidation.validString();
+        do
+        {
 
-//             Console.WriteLine("Confirm Your Password: ");
-//             string passwordconf = InputValidation.validString();
-//             same = password == passwordconf ? true : false;
-//         } while (!same);
+            Console.WriteLine("Confirm Your Password: ");
+            string passwordconf = InputValidation.validString();
+            same = password == passwordconf ? true : false;
+        } while (!same);
 
-//         User userToCreate = new User();
-//         userToCreate.FirstName = firstname;
-//         userToCreate.LastName = lastname;
-//         userToCreate.UserName = username;
-//         userToCreate.Password = password;
-//         userToCreate.IDStore = storeid;
-//         userToCreate.IsAdmin = true;
+        User userToCreate = new User();
+        userToCreate.FirstName = firstname;
+        userToCreate.LastName = lastname;
+        userToCreate.UserName = username;
+        userToCreate.Password = password;
+        userToCreate.IDStore = storeid;
+        userToCreate.IsAdmin = true;
 
 
-//         User? createdUser = _bl.createNewUser(userToCreate);
-//         if (createdUser != null)
-//         {
-//             OutputMessage.SucessCreation(createdUser.FirstName);
-//             PortalManager(manager);
-//         }
-//         else
-//         {
-//             OutputMessage.ErrorCreation();
-//         }
+        User? createdUser = await _httpService.createNewManager(userToCreate);
+        if (createdUser != null)
+        {
+            OutputMessage.SucessCreation(createdUser.FirstName);
+            await PortalManager(manager);
+        }
+        else
+        {
+            OutputMessage.ErrorCreation();
+        }
 
-//     }
+    }
 
 //     private void LogOut()
 //     {
@@ -201,96 +201,96 @@ public class ManagerMenu
 //         new MainMenu(_bl).Start();
 //     }
 
-//     // add store
-//     private void AddStoreFront(User manager)
-//     {
+    // add store
+    private async Task AddStoreFront(User manager)
+    {
 
-//         Console.WriteLine("Creating New Store");
+        Console.WriteLine("Creating New Store");
 
-//         Console.WriteLine("Enter Name: ");
-//         string name = InputValidation.validString();
+        Console.WriteLine("Enter Name: ");
+        string name = InputValidation.validString();
 
-//         Console.WriteLine("Enter address line1: ");
-//         string line1 = InputValidation.validString();
+        Console.WriteLine("Enter address line1: ");
+        string line1 = InputValidation.validString();
 
-//         Console.WriteLine("Enter address line2: ");
-//         string? line2 = Console.ReadLine();
+        Console.WriteLine("Enter address line2: ");
+        string? line2 = Console.ReadLine();
 
-//         Console.WriteLine("Enter address city: ");
-//         string city = InputValidation.validString();
+        Console.WriteLine("Enter address city: ");
+        string city = InputValidation.validString();
 
-//         Console.WriteLine("Enter address state: ");
-//         string state = InputValidation.validString();
+        Console.WriteLine("Enter address state: ");
+        string state = InputValidation.validString();
 
-//         Console.WriteLine("Enter address country: ");
-//         string country = InputValidation.validString();
+        Console.WriteLine("Enter address country: ");
+        string country = InputValidation.validString();
 
-//         Console.WriteLine("Enter address zipCode: ");
-//         string zipCode = InputValidation.validString();
+        Console.WriteLine("Enter address zipCode: ");
+        string zipCode = InputValidation.validString();
 
-//         StoreFront storeToAdd = new StoreFront();
-//         storeToAdd.Name = name;
-//         storeToAdd.Line1 = line1;
-//         storeToAdd.Line2 = line2!;
-//         storeToAdd.City = city;
-//         storeToAdd.State = state;
-//         storeToAdd.Country = country;
-//         storeToAdd.ZipCode = zipCode;
+        StoreFront storeToAdd = new StoreFront();
+        storeToAdd.Name = name;
+        storeToAdd.Line1 = line1;
+        storeToAdd.Line2 = line2!;
+        storeToAdd.City = city;
+        storeToAdd.State = state;
+        storeToAdd.Country = country;
+        storeToAdd.ZipCode = zipCode;
 
-//         StoreFront? addedStore = _bl.addStoreFront(storeToAdd);
-//         if (addedStore != null)
-//         {
-//             OutputMessage.SucessCreation("New Store");
-//             PortalManager(manager);
-//         }
-//         else
-//         {
-//             OutputMessage.ErrorOperation();
-//         }
+        StoreFront? addedStore = await _httpService.addStoreFront(storeToAdd);
+        if (addedStore != null)
+        {
+            OutputMessage.SucessCreation("New Store");
+            await PortalManager(manager);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
 
-//     }
-
-
-//     private void AddProduct(User manager)
-//     {
-
-//         Console.WriteLine("Creating New Product");
-
-//         Console.WriteLine("Enter Name: ");
-//         string name = InputValidation.validString();
-
-//         Console.WriteLine("Enter reference or description: ");
-//         string productRef = InputValidation.validString();
-
-//         Console.WriteLine("Enter quantity: ");
-//         float quantity = InputValidation.validFloatPositif();
-
-//         Console.WriteLine("Enter price: ");
-//         float price = InputValidation.validFloatPositif();
+    }
 
 
-//         // Console.WriteLine("Enter the store ID: ");
-//         // int storeid = InputValidation.validIntPositif();
+    private async Task AddProduct(User manager)
+    {
 
-//         Product productToAdd = new Product();
-//         productToAdd.NameProduct = name;
-//         productToAdd.ProductRef = productRef;
-//         productToAdd.ProductQuantity = quantity;
-//         productToAdd.ProductPrice = price;
-//         productToAdd.IDStore = manager.IDStore;
+        Console.WriteLine("Creating New Product");
 
-//         Product? addedStore = _bl.addProduct(productToAdd);
-//         if (addedStore != null)
-//         {
-//             OutputMessage.SucessCreation("New Product");
-//             PortalManager(manager);
-//         }
-//         else
-//         {
-//             OutputMessage.ErrorOperation();
-//         }
+        Console.WriteLine("Enter Name: ");
+        string name = InputValidation.validString();
 
-//     }
+        Console.WriteLine("Enter reference or description: ");
+        string productRef = InputValidation.validString();
+
+        Console.WriteLine("Enter quantity: ");
+        float quantity = InputValidation.validFloatPositif();
+
+        Console.WriteLine("Enter price: ");
+        float price = InputValidation.validFloatPositif();
+
+
+        // Console.WriteLine("Enter the store ID: ");
+        // int storeid = InputValidation.validIntPositif();
+
+        Product productToAdd = new Product();
+        productToAdd.NameProduct = name;
+        productToAdd.ProductRef = productRef;
+        productToAdd.ProductQuantity = quantity;
+        productToAdd.ProductPrice = price;
+        productToAdd.IDStore = manager.IDStore;
+
+        Product? addedStore = await _httpService.addProduct(productToAdd);
+        if (addedStore != null)
+        {
+            OutputMessage.SucessCreation("New Product");
+            await PortalManager(manager);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
+
+    }
 
 //     private void ViewInventory(User manager)
 //     {

@@ -10,9 +10,19 @@ public class StoreBL : IStoreBL
         _repo = repo;
     }
 
-    public  User createNewUser(User userToCreate)
+    public User createNewUser(User userToCreate)
     {
-        return  _repo.createNewUser(userToCreate);
+        return _repo.createNewUser(userToCreate);
+    }
+
+    public async Task<User> getManagerAsync(string username)
+    {
+        return await _repo.getManagerAsync(username);
+    }
+
+    public User createNewManager(User userToCreate)
+    {
+        return _repo.createNewManager(userToCreate);
     }
 
     public async Task<User> getUserAsync(string username)
@@ -20,11 +30,11 @@ public class StoreBL : IStoreBL
         return await _repo.getUserAsync(username);
     }
 
-    // public StoreFront addStoreFront(StoreFront storeToAdd)
-    // {
-    //     return _repo.addStoreFront(storeToAdd);
-    // }
-     public Product addProduct(Product productToAdd)
+    public StoreFront addStoreFront(StoreFront storeToAdd)
+    {
+        return _repo.addStoreFront(storeToAdd);
+    }
+    public Product addProduct(Product productToAdd)
     {
         return _repo.addProduct(productToAdd);
     }

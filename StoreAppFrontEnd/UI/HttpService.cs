@@ -32,6 +32,24 @@ public class HttpService
         }
     }
 
+    public async Task<User> getManagerAsync(string username)
+    {
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync($"Manager/{username}");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<User>(responseString) ?? new User();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+
     public async Task<User> createNewUser(User userToCreate)
     {
         string serializedUser = JsonSerializer.Serialize(userToCreate);
@@ -39,6 +57,25 @@ public class HttpService
         try
         {
             HttpResponseMessage response = await client.PostAsync("User", content);
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<User>(responseString) ?? new User();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+    public async Task<User> createNewManager(User userToCreate)
+    {
+        string serializedUser = JsonSerializer.Serialize(userToCreate);
+        StringContent content = new StringContent(serializedUser, Encoding.UTF8, "application/json");
+        try
+        {
+            HttpResponseMessage response = await client.PostAsync("Manager", content);
             response.EnsureSuccessStatusCode();
             string responseString = await response.Content.ReadAsStringAsync();
             if (responseString != null && responseString.Length > 0)
@@ -98,6 +135,46 @@ public class HttpService
             string responseString = await response.Content.ReadAsStringAsync();
             if (responseString != null && responseString.Length > 0)
                 return JsonSerializer.Deserialize<List<Order>>(responseString) ?? new List<Order>();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+
+    public async Task<Product> addProduct(Product productToAdd)
+    {
+        string serializedProduct = JsonSerializer.Serialize(productToAdd);
+        StringContent content = new StringContent(serializedProduct, Encoding.UTF8, "application/json");
+        try
+        {
+            HttpResponseMessage response = await client.PostAsync("Product", content);
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<Product>(responseString) ?? new Product();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+
+     public async Task<StoreFront> addStoreFront(StoreFront storeToAdd)
+    {
+        string serializedStore = JsonSerializer.Serialize(storeToAdd);
+        StringContent content = new StringContent(serializedStore, Encoding.UTF8, "application/json");
+        try
+        {
+            HttpResponseMessage response = await client.PostAsync("StoreFront", content);
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<StoreFront>(responseString) ?? new StoreFront();
             else
                 return null!;
         }

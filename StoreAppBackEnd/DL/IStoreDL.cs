@@ -20,6 +20,7 @@ public interface IStoreDL
     ///<param name="userToCreate"> User object to be inserted or added</param>
     //Task<User> createNewUserAsync(User userToCreate);
     User createNewUser(User userToCreate);
+    User createNewManager(User userToCreate);
 
 
     /// <summary>
@@ -27,20 +28,21 @@ public interface IStoreDL
     ///</summary>
     ///<param name="userToGet"> User object to be got</param>
     Task<User> getUserAsync(string username);
+    Task<User> getManagerAsync(string username);
 
-    // StoreFront addStoreFront(StoreFront storeToAdd);
+    StoreFront addStoreFront(StoreFront storeToAdd);
 
-     Product addProduct(Product productToAdd);
+    Product addProduct(Product productToAdd);
 
     // List<Product> GetAllProductByStore(int store);
-     Task<List<Product>> GetAllProductAsync();
+    Task<List<Product>> GetAllProductAsync();
     // List<User> GetAllCustomer();
 
     // Product updateProduct(Product productToUpdate);
 
     Task<List<Order>> getHistoryOrder(int id);
 
-     Order placeOrder(Order orderToPlace);
+    Order placeOrder(Order orderToPlace);
 
     // // /// <summary>
     // // /// adds a new manager
