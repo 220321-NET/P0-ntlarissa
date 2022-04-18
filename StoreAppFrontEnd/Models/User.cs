@@ -39,10 +39,6 @@ public class User
         get => password;
         set
         {
-            if (String.IsNullOrWhiteSpace(value))
-            {
-                throw new ValidationException("Password cannot be empty!!!1");
-            }
             password = value;
         }
     }
@@ -53,10 +49,6 @@ public class User
         get => username;
         set
         {
-            if (String.IsNullOrWhiteSpace(value))
-            {
-                throw new ValidationException("Username cannot be empty!!!");
-            }
             username = value;
         }
     }

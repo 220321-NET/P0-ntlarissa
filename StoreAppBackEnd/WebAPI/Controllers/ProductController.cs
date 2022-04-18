@@ -56,4 +56,10 @@ public class ProductController : ControllerBase
         }
     }
 
+    [HttpPut("UpdateProduct")]
+        public Product Put(Product productToUpdate)
+        {
+            return _bl.updateProduct(productToUpdate);
+        }
+
 }

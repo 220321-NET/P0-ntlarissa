@@ -6,6 +6,7 @@
 
 # FROM keyword sets our base image to build our own image upon
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+#ENV ASPNETCORE_URLS = http://+:5000
 
 # Now we have the ability to compile and run .NET 6 applications
 # Next, I'm going to set my workdirectory to execute all my subsequent COPY, ADD, CMD, ENTRYPOINT, and RUN commands on
@@ -19,10 +20,11 @@ COPY . .
 RUN dotnet clean StoreApp.sln
 RUN dotnet publish WebAPI --configuration Release -o ./publish
 
-# Multistage build
+
+#Multistage build
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS run
 
-WORKDIR /app
+WORKDIR /app/publish
 
 COPY --from=build /app/publish .
 

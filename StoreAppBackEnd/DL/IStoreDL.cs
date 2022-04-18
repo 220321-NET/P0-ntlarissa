@@ -34,13 +34,16 @@ public interface IStoreDL
 
     Product addProduct(Product productToAdd);
 
-    // List<Product> GetAllProductByStore(int store);
+    Task<List<Product>> GetAllProductByStoreASync(int store);
     Task<List<Product>> GetAllProductAsync();
     // List<User> GetAllCustomer();
 
-    // Product updateProduct(Product productToUpdate);
+    Product updateProduct(Product productToUpdate);
 
     Task<List<Order>> getHistoryOrder(int id);
+    Task<List<HistoryByUser>> getHistoryByUsers();
+    Task<List<HistoryByStore>> getHistoryByStores();
+
 
     Order placeOrder(Order orderToPlace);
 

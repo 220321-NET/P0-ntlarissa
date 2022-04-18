@@ -112,20 +112,20 @@ public class ManagerMenu
                     break;
                 case "3":
                     //View  order history by location!
-                    //ViewHistoryByCustomer(manager);
+                    await ViewHistoryByStore(manager);
                     break;
 
                 case "4":
                     //View order history by customer!
-                    //ViewHistoryByCustomer(manager);
+                    await ViewHistoryByCustomer(manager);
                     break;
                 case "5":
                     //View inventory!
-                    //ViewInventory(manager);
+                    await ViewInventory(manager);
                     break;
                 case "6":
                     //Replenish inventory!
-                    //ReplenishInventory(manager);
+                    await ReplenishInventory(manager);
                     break;
                 case "7":
                     //Add storeFront!
@@ -195,11 +195,11 @@ public class ManagerMenu
 
     }
 
-//     private void LogOut()
-//     {
-//         Console.WriteLine("Goodbye!");
-//         new MainMenu(_bl).Start();
-//     }
+    //     private void LogOut()
+    //     {
+    //         Console.WriteLine("Goodbye!");
+    //         new MainMenu(_bl).Start();
+    //     }
 
     // add store
     private async Task AddStoreFront(User manager)
@@ -292,113 +292,126 @@ public class ManagerMenu
 
     }
 
-//     private void ViewInventory(User manager)
-//     {
+    private async Task ViewInventory(User manager)
+    {
 
-//         // get all product by store
+        // get all product by store
 
-//         List<Product>? allProducts = _bl.GetAllProductByStore(manager.IDStore);
-//         if (allProducts != null)
-//         {
-//             Console.WriteLine("Here are all the products in the store");
-//             foreach (Product productToDisplay in allProducts)
-//             {
-//                 Console.WriteLine(productToDisplay);
-//             }
-//             PortalManager(manager);
-//         }
-//         else
-//         {
-//             OutputMessage.ErrorOperation();
-//         }
+        List<Product>? allProducts = await _httpService.GetAllProductByStoreAsync(manager.IDStore);
+        if (allProducts != null)
+        {
+            Console.WriteLine("Here are all the products in the store");
+            foreach (Product productToDisplay in allProducts)
+            {
+                Console.WriteLine(productToDisplay);
+                System.Console.WriteLine("      ========================================================================");
 
-//     }
+            }
+            await PortalManager(manager);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
 
-//     private void ReplenishInventory(User manager)
-//     {
+    }
 
-//         // get all product by store and update
+        private async Task ReplenishInventory(User manager)
+        {
 
-//         List<Product>? allProducts = _bl.GetAllProductByStore(manager.IDStore);
-//         if (allProducts != null)
-//         {
-//             Console.WriteLine("Here are all the products in the store");
-//             foreach (Product productToDisplay in allProducts)
-//             {
-//                 Console.WriteLine(productToDisplay);
-//                 System.Console.WriteLine("==============================================================================");
-//             }
-//             System.Console.WriteLine("Enter the  Product ID");
-//         EnterID:
-//             int id = InputValidation.validIntPositif();
-//             if (allProducts.Exists(x => x.IDProduct == id))
-//             {
-//                 Product? productToUpdate = allProducts.Find(x => x.IDProduct == id);
-//                 if (productToUpdate != null)
-//                 {
-//                     //System.Console.WriteLine(productToUpdate);
-//                     Console.WriteLine($"Enter the new quantity or {productToUpdate.ProductQuantity} for the old value: ");
-//                     float quantity = InputValidation.validFloatPositif();
+            // get all product by store and update
 
-//                     Console.WriteLine($"Enter the new price or {productToUpdate.ProductPrice} for the old value: ");
-//                     float price = InputValidation.validFloatPositif();
-//                     productToUpdate.ProductPrice = price;
-//                     productToUpdate.ProductQuantity = quantity;
-//                     //System.Console.WriteLine(productToUpdate);
-//                     Product? updatedProduct = _bl.updateProduct(productToUpdate);
-//                     if (updatedProduct != null)
-//                     {
-//                         OutputMessage.SucessUpdate("Inventory ");
-//                         PortalManager(manager);
-//                     }
-//                     else
-//                     {
-//                         OutputMessage.ErrorOperation();
-//                     }
-//                 }
-//                 else
-//                 {
-//                     OutputMessage.ErrorOperation();
-//                 }
+            List<Product>? allProducts = await _httpService.GetAllProductByStoreAsync(manager.IDStore);
+            if (allProducts != null)
+            {
+                Console.WriteLine("Here are all the products in the store");
+                foreach (Product productToDisplay in allProducts)
+                {
+                    Console.WriteLine(productToDisplay);
+                    System.Console.WriteLine("==============================================================================");
+                }
+                System.Console.WriteLine("Enter the  Product ID");
+            EnterID:
+                int id = InputValidation.validIntPositif();
+                if (allProducts.Exists(x => x.IDProduct == id))
+                {
+                    Product? productToUpdate = allProducts.Find(x => x.IDProduct == id);
+                    if (productToUpdate != null)
+                    {
+                        //System.Console.WriteLine(productToUpdate);
+                        Console.WriteLine($"Enter the new quantity or {productToUpdate.ProductQuantity} for the old value: ");
+                        float quantity = InputValidation.validFloatPositif();
 
-//             }
-//             else
-//             {
-//                 Console.WriteLine($"This ID Product {id} does not exist, please enter the correct ID");
-//                 goto EnterID;
-//             }
+                        Console.WriteLine($"Enter the new price or {productToUpdate.ProductPrice} for the old value: ");
+                        float price = InputValidation.validFloatPositif();
+                        productToUpdate.ProductPrice = price;
+                        productToUpdate.ProductQuantity = quantity;
+                        //System.Console.WriteLine(productToUpdate);
+                        Product? updatedProduct = await _httpService.updateProduct(productToUpdate);
+                        if (updatedProduct != null)
+                        {
+                            OutputMessage.SucessUpdate("Inventory ");
+                            await PortalManager(manager);
+                        }
+                        else
+                        {
+                            OutputMessage.ErrorOperation();
+                        }
+                    }
+                    else
+                    {
+                        OutputMessage.ErrorOperation();
+                    }
 
-//         }
-//         else
-//         {
-//             OutputMessage.ErrorOperation();
-//         }
+                }
+                else
+                {
+                    Console.WriteLine($"This ID Product {id} does not exist, please enter the correct ID");
+                    goto EnterID;
+                }
 
-//     }
-//     private void ViewHistoryByCustomer(User manager)
-//     {
-//         List<User> listCustomer = _bl.GetAllCustomer();
-//         if (listCustomer != null)
-//         {
-//             foreach (User customer in listCustomer)
-//             {
-//                 List<Order>? gethistory = _bl.getHistoryOrder(customer.ID);
-//                 if (gethistory != null)
-//                 {
-//                     Console.WriteLine($"Order {customer.UserName}\n");
-//                     foreach (Order orderDisplay in gethistory)
-//                     {//Display  the products  exist in order making
-//                         Console.WriteLine(orderDisplay);
-//                         System.Console.WriteLine("=================================================================");
+            }
+            else
+            {
+                OutputMessage.ErrorOperation();
+            }
 
-//                     }
-//                 }
-//             }
-//             PortalManager(manager);
-//         }
-//         else
-//         {
-//             System.Console.WriteLine("There are not customer.");
-//         }
-//     }
- }
+        }
+    private async Task ViewHistoryByCustomer(User manager)
+    {
+        List<HistoryByUser>? getHistoryByUser = await _httpService.getHistoryByUsers();
+        if (getHistoryByUser != null)
+        {
+            foreach (HistoryByUser gethistory in getHistoryByUser)
+            {
+                Console.WriteLine(gethistory);
+                System.Console.WriteLine("       =========================================================================");
+
+            }
+            await PortalManager(manager);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
+    }
+
+    private async Task ViewHistoryByStore(User manager)
+    {
+        List<HistoryByStore>? getHistoryByStore = await _httpService.getHistoryByStores();
+        if (getHistoryByStore != null)
+        {
+            foreach (HistoryByStore gethistory in getHistoryByStore)
+            {
+                Console.WriteLine(gethistory);
+                System.Console.WriteLine("      ===================================================================================");
+
+            }
+            await PortalManager(manager);
+        }
+        else
+        {
+            OutputMessage.ErrorOperation();
+        }
+    }
+}

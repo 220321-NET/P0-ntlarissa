@@ -39,20 +39,20 @@ public class StoreBL : IStoreBL
         return _repo.addProduct(productToAdd);
     }
 
-    // public List<Product> GetAllProductByStore(int store)
-    // {
-    //     return _repo.GetAllProductByStore(store);
-    // }
+    public async Task<List<Product>> GetAllProductByStoreASync(int store)
+    {
+        return await _repo.GetAllProductByStoreASync(store);
+    }
 
     public async Task<List<Product>> GetAllProductAsync()
     {
         return await _repo.GetAllProductAsync();
     }
 
-    // public Product updateProduct(Product productToUpdate)
-    // {
-    //     return _repo.updateProduct(productToUpdate);
-    // }
+    public Product updateProduct(Product productToUpdate)
+    {
+        return _repo.updateProduct(productToUpdate);
+    }
 
     public Order placeOrder(Order orderToPlace)
     {
@@ -62,6 +62,16 @@ public class StoreBL : IStoreBL
     public async Task<List<Order>> getHistoryOrder(int id)
     {
         return await _repo.getHistoryOrder(id);
+    }
+
+    public async Task<List<HistoryByUser>> getHistoryByUsers()
+    {
+        return await _repo.getHistoryByUsers();
+    }
+
+    public async Task<List<HistoryByStore>> getHistoryByStores()
+    {
+        return await _repo.getHistoryByStores();
     }
     // public List<User> GetAllCustomer(){
     //     return _repo.GetAllCustomer();

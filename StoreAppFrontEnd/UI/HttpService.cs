@@ -164,6 +164,28 @@ public class HttpService
         }
     }
 
+    public async Task<Product> updateProduct(Product productToUpdate)
+    {
+        string serializedProduct = JsonSerializer.Serialize(productToUpdate);
+        StringContent content = new StringContent(serializedProduct, Encoding.UTF8, "application/json");
+        try
+        {
+            HttpResponseMessage response = await client.PutAsync("Product/UpdateProduct", content);
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<Product>(responseString) ?? new Product();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+
+    
+
      public async Task<StoreFront> addStoreFront(StoreFront storeToAdd)
     {
         string serializedStore = JsonSerializer.Serialize(storeToAdd);
@@ -175,6 +197,59 @@ public class HttpService
             string responseString = await response.Content.ReadAsStringAsync();
             if (responseString != null && responseString.Length > 0)
                 return JsonSerializer.Deserialize<StoreFront>(responseString) ?? new StoreFront();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+
+    public async Task<List<Product>> GetAllProductByStoreAsync(int id)
+    {
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync($"Inventory/{id}");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<List<Product>>(responseString) ?? new List<Product>();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+    public async Task<List<HistoryByUser>> getHistoryByUsers()
+    {
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync("HistoryByUser/");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<List<HistoryByUser>>(responseString) ?? new List<HistoryByUser>();
+            else
+                return null!;
+        }
+        catch (HttpRequestException)
+        {
+            throw;
+        }
+    }
+
+    public async Task<List<HistoryByStore>> getHistoryByStores()
+    {
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync("HistoryByStore/");
+            response.EnsureSuccessStatusCode();
+            string responseString = await response.Content.ReadAsStringAsync();
+            if (responseString != null && responseString.Length > 0)
+                return JsonSerializer.Deserialize<List<HistoryByStore>>(responseString) ?? new List<HistoryByStore>();
             else
                 return null!;
         }

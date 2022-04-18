@@ -12,13 +12,15 @@ public interface IStoreBL
 
     StoreFront addStoreFront(StoreFront storeToAdd);
     Product addProduct(Product productToAdd);
-    // List<Product> GetAllProductByStore(int store);
+    Task<List<Product>> GetAllProductByStoreASync(int store);
     Task<List<Product>> GetAllProductAsync();
 
-    // Product updateProduct(Product productToUpdate);
+    Product updateProduct(Product productToUpdate);
     Order placeOrder(Order orderToPlace);
 
     Task<List<Order>> getHistoryOrder(int id);
+    Task<List<HistoryByUser>> getHistoryByUsers();
+    Task<List<HistoryByStore>> getHistoryByStores();
 
     // List<User> GetAllCustomer();
 }
